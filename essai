@@ -104,3 +104,26 @@
     //     res.send(`Votre nouveau mot de passe est modifié : ${modifyPassword}`);
     //   });
 // router.patch('/:users', ProdCtrl.patchPassword);
+
+
+// exports.patchPassword = (req, res) => {
+//     const password = req.params.password;
+//     console.log(password);
+//     Password.find({password:password})
+
+//     .then ((password) =>{
+//      return res.status(200).json({password})} )
+//     .catch((error) =>{
+//         console.log(error);
+//      return res.status(400).json({error}) });
+// }
+
+// router.patch('/:users', ProdCtrl.patchPassword);
+
+
+// GetPassword.patch('/api/passwords/', (req, res) => {
+    //         const length = parseInt(req.query.length) || 16;
+    //         const modifyPassword = generatePassword(length);
+    //         res.send(`Votre nouveau mot de passe est modifié : ${modifyPassword}`);
+    //       });
+    

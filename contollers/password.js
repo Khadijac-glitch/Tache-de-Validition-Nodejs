@@ -14,7 +14,6 @@ exports.getAllPassword = (req, res) => {
     console.log(mypassword);
     Password.find({mypassword:mypassword})
     
-
     .then ((password) =>{
      return res.status(200).json({password})} )
     .catch((error) =>{
@@ -24,14 +23,13 @@ exports.getAllPassword = (req, res) => {
 
 
 exports.patchPassword = (req, res) => {
-    const password = req.params.password;
-    console.log(password);
-    Password.find({password:password})
-
+    const mypassword = req.params.id;
+    console.log(mypassword);
+    Password.findByIdAndUpdate(mypassword,req.body)
     .then ((password) =>{
-     return res.status(200).json({password})} )
-    .catch((error) =>{
-        console.log(error);
-     return res.status(400).json({error}) });
-}
+        return res.status(200).json({password})} )
+       .catch((error) =>{
+           console.log(error);
+        return res.status(400).json({error}) });
+    }
 

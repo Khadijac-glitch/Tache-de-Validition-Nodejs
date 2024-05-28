@@ -5,8 +5,9 @@ const RoutePassword = require('./router/password');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 
- function generatePassword(length = 16) {
-      const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+ function generatePassword() {
+      const charset ="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?"
+      let length = 16;
       let password = '';
       const charsetLength = charset.length;
     
@@ -37,12 +38,15 @@ GetPassword.get('/api/passwords/', (req, res) => {
 
 GetPassword.patch('/api/passwords/', (req, res) => {
         const length = parseInt(req.query.length) || 16;
-        const modifyPassword = generatePassword(length);
-        res.send(`Votre nouveau mot de passe est modifié : ${modifyPassword}`);
+        const newPassword = generatePassword(length);
+        res.send(`Votre  mot de passe a été modifié: ${newPassword}`);
       });
-      
+  
+
 GetPassword.use(bodyParser.json())
 GetPassword.use('/api/passwords/', RoutePassword);
+
+
 
 module.exports = GetPassword;
 

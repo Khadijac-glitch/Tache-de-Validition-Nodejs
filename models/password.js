@@ -6,8 +6,9 @@ const mypassword = mongoose.Schema({
             
     },
     password: {
-        type:Number,
+        type:String,
         required:true,
+        
     },
   
 });

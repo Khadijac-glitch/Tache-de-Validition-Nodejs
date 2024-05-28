@@ -5,7 +5,8 @@ const ProdCtrl = require('../contollers/password');
 
 router.post('/', ProdCtrl.createNewPassword);
 router.get('/:users', ProdCtrl.getAllPassword);
-router.patch('/:users', ProdCtrl.patchPassword);
+router.patch('/:id', ProdCtrl.patchPassword);
+
 
 
 module.exports = router;
