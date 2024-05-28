@@ -8,12 +8,29 @@ const port = process.env.PORT || 3000
 
 connectDb().catch(err => console.log(err))
 
+app.use(express.json())
+
 app.listen(port, () => {
     console.log('Le serveur est lancé');
 })
 
 
-app.get('/liste-produits', async (req, res, next) => {
+
+//Ajouter un produit  ===> admin
+// let id_supprimer_produit = '6654b5c5d96cf23f9fcd96c9'
+app.post(`/admin/liste-produits`, async (req, res, next) => {
+    try {
+        const produit = new Produit(req.body)
+        const saveProduit = await produit.save()
+        res.status(201).send(saveProduit)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+
+// Voir la liste de tous les produits  ===> admin
+app.get('/admin/liste-produits', async (req, res, next) => {
     try {
         const produits = await Produit.find({})
         res.send(produits)
@@ -22,3 +39,75 @@ app.get('/liste-produits', async (req, res, next) => {
     }
 })
 
+
+
+// // Voir les details d'un produit ===> admin
+// let id = '6654b5c5d96cf23f9fcd96c9'
+app.get('/admin/liste-produits/:id', async (req, res, next) => {
+    const produitId = req.params.id
+    try {
+        const produits = await Produit.findById(produitId)
+        if (!produits) {return res.status(404).send('Produit non trouvé')}
+        res.send(produits)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+
+// // Modifier un produit  ===> admin
+// let id_modifier_produit = '6654b5c5d96cf23f9fcd96c9'
+app.patch(`/admin/liste-produits/:id`, async (req, res, next) => {
+    const produitId = req.params.id
+
+    try {
+        const produits = await Produit.findByIdAndUpdate(produitId, req.body)
+        if (!produits) return res.status(404).send('Produit non trouvé')
+        res.send(produits)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+
+// //Supprimer un produit ===> admin
+// let id_supprimer_produit = '6654b5c5d96cf23f9fcd96c9'
+app.delete(`/admin/liste-produits/:id`, async (req, res, next) => {
+    const produitId = req.params.id
+
+    try {
+        const produits = await Produit.findByIdAndDelete(produitId)
+        if (!produits) return res.status(404).send('Produit non trouvé')
+        res.send(produits)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+
+
+                            // Pour les users
+
+// Voir la liste de tous les produits  ===> admin
+app.get('/user/liste-produits', async (req, res, next) => {
+    try {
+        const produits = await Produit.find({})
+        res.send(produits)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+
+
+// // Voir les details d'un produit ===> admin
+app.get('/user/liste-produits/:id', async (req, res, next) => {
+    const produitId = req.params.id
+    try {
+        const produits = await Produit.findById(produitId)
+        if (!produits) {return res.status(404).send('Produit non trouvé')}
+        res.send(produits)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
