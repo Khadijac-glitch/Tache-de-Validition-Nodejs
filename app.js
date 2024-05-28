@@ -19,5 +19,8 @@ app.post('/',(req,res) => {
 
 app.use(bodyParser.json())
 app.use('/api/users/', RouteUsers);
+app.use('/api/admin/', RouteUsers);
+app.use('/api/email', require('./router/email'));
+
 
 module.exports = app;

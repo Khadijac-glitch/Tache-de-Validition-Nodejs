@@ -36,4 +36,7 @@ const user = mongoose.Schema({
     }
 
 });
+
+// Middleware pour hacher le mot de passe avant de sauvegarder l'utilisateur
+
 module.exports = mongoose.model('User', user);
