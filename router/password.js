@@ -8,8 +8,6 @@ router.get('/:users', ProdCtrl.getAllPassword);
 router.patch('/:users', ProdCtrl.patchPassword);
 
 
-
-
 module.exports = router;
 
 

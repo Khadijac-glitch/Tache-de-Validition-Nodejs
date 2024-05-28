@@ -40,14 +40,7 @@ GetPassword.patch('/api/passwords/', (req, res) => {
         const modifyPassword = generatePassword(length);
         res.send(`Votre nouveau mot de passe est modifié : ${modifyPassword}`);
       });
-
-
-
-
-
-
-
-
+      
 GetPassword.use(bodyParser.json())
 GetPassword.use('/api/passwords/', RoutePassword);
 
