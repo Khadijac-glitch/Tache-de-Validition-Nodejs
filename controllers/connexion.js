@@ -41,6 +41,7 @@ exports.patchUser = (req, res) => {
        .catch((error) =>{
            console.log(error);
         return res.status(400).json({error}) });
+        
     }
     exports.patchAdmin = (req, res) => {
         const user = req.params.id;

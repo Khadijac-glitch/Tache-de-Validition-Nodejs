@@ -3,7 +3,8 @@ const app  = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const RouteUsers = require('./router/connexion');
-mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+)
 
 .then(() => {
     console.log('connexion success !')
