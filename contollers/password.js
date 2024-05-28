@@ -1,19 +1,19 @@
 const Password = require ('../models/password');
 
-exports.createPassword = (req, res) => {
-    const prod = new Password(req.body);
-
-   prod.save()
+exports.createNewPassword = (req, res) => {
+    const mypassword = new Password(req.body);
+    mypassword.save()
    .then((password) => {
     return res.status(201).json({password})
    })
    .catch((error) => { return res.status(400).json({error}) });
 }
 
-exports.getOnePassword = (req, res) => {
-    const prod = req.params.id;
-    console.log(prod);
-    Password.find({prod:prod})
+exports.getAllPassword = (req, res) => {
+    const mypassword = req.params.id;
+    console.log(mypassword);
+    Password.find({mypassword:mypassword})
+    
 
     .then ((password) =>{
      return res.status(200).json({password})} )
@@ -22,18 +22,16 @@ exports.getOnePassword = (req, res) => {
      return res.status(400).json({error}) });
 }
 
-exports.getAllPasswords = (req,res) =>{
-    Password.find()
-    .then ((passwords) =>{ return res.status(200).json({passwords})} )
-    .catch((error) =>{ return res.status(400).json({error}) });
 
+exports.patchPassword = (req, res) => {
+    const password = req.params.password;
+    console.log(password);
+    Password.find({password:password})
+
+    .then ((password) =>{
+     return res.status(200).json({password})} )
+    .catch((error) =>{
+        console.log(error);
+     return res.status(400).json({error}) });
 }
-
-
-
-
-
-
-
-
 

@@ -1,0 +1,106 @@
+// const express = require('express');
+// const GetPassword  = express();
+// const bodyParser = require('body-parser');
+// const RoutePassword = require('./router/password');
+// const mongoose = require('mongoose');
+// mongoose.connect('mongodb+srv://madjiguened835:Hr0NWZprD4lcz1BH@get-password.sot5wfh.mongodb.net/?retryWrites=true&w=majority&appName=get-password ')
+
+// .then(() => {
+//     console.log('connexion success!')
+// })
+// .catch((error) => {
+//     console.log(error);
+// });
+
+// GetPassword.get('/api/passwords/',(req,res) =>{
+//     res.send();
+
+// })
+
+// GetPassword.use(bodyParser.json())
+// GetPassword.use('/api/passwords/', RoutePassword);
+
+// module.exports = GetPassword;
+
+// Fonction pour hacher un mot de passe
+// function hashPassword(password) {
+//     return crypto.createHash('sha256').update(password).digest('hex');
+//   }
+  
+
+
+
+
+// Route pour modifier le mot de passe
+// GetPassword.post('/change-password', (req, res) => {
+//   const { username, oldPassword, newPassword } = req.body;
+
+//   if (!username || !oldPassword || !newPassword) {
+//     return res.status(400).send('Tous les champs sont obligatoires.');
+//   }
+
+//   const user = users[username];
+
+//   if (!user || user.password !== hashPassword(oldPassword)) {
+//     return res.status(401).send('Nom d\'utilisateur ou mot de passe incorrect.');
+//   }
+
+//   user.password = hashPassword(newPassword);
+//   res.send('Mot de passe mis à jour avec succès.');
+// });
+
+
+
+
+// function generatePassword(length = 16) {
+//   const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+//   let password = '';
+//   const charsetLength = charset.length;
+
+//   for (let i = 0; i < length; i++) {
+//     const randomIndex = crypto.randomInt(0, charsetLength);
+//     password += charset[randomIndex];
+//   }
+
+//   return password;
+// }
+
+
+
+// GetPassword.get('/generate-password', (req, res) => {
+    // //   const length = parseInt(req.query.length) || 16;
+    // //   const newPassword = generatePassword(length);
+    //   res.send(`Votre nouveau mot de passe est : ${mypassword}`);
+    // });
+    // const crypto = require('crypto');
+// 
+
+
+
+// GetPassword.get('/generate-password', (req, res) => {
+//     res.send(`Votre nouveau mot de passe est : ${mypassword}`);
+//   });
+  
+//   GetPassword.listen(port, () => {
+//     console.log(`Serveur en cours d'exécution sur http://localhost:${port}`);
+//   });
+  
+
+// exports.patchPassword = (req, res) => {
+//     const password = req.params.password;
+//     console.log(password);
+//     Password.find({password:password})
+
+//     .then ((password) =>{
+//      return res.status(200).json({password})} )
+//     .catch((error) =>{
+//         console.log(error);
+//      return res.status(400).json({error}) });
+// }
+
+    // GetPassword.patch('/api/passwords/', (req, res) => {
+    //     const length = parseInt(req.query.length) || 16;
+    //     const modifyPassword = generatePassword(length);
+    //     res.send(`Votre nouveau mot de passe est modifié : ${modifyPassword}`);
+    //   });
+// router.patch('/:users', ProdCtrl.patchPassword);

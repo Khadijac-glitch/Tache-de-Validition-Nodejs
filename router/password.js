@@ -3,9 +3,12 @@ const router = express.Router()
 const ProdCtrl = require('../contollers/password');
 
 
-router.post('/', ProdCtrl.createPassword);
-router.get('/:prod', ProdCtrl.getOnePassword);
-router.get('/', ProdCtrl.getAllPasswords);
+router.post('/', ProdCtrl.createNewPassword);
+router.get('/:users', ProdCtrl.getAllPassword);
+router.patch('/:users', ProdCtrl.patchPassword);
+
+
+
 
 module.exports = router;
 
