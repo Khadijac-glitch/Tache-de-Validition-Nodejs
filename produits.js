@@ -1,97 +1,89 @@
-const { urlencoded } = require("body-parser");
 const express = require("express");
-const app = express();
-// const product = require("./produitSchema");
-const { MongoClient } = require("mongodb");
-const PORT = 4000;
-const client = new MongoClient(
-  "mongodb+srv://gayefatimabinetou:gRyoV5xgEsPyivTt@cluster0.3loxuhp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-);
-app.use(urlencoded());
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const Schema = require("mongoose");
-const schemas = mongoose.Schema({
+const { MongoClient } = require("mongodb");
+
+const app = express();
+const PORT = 4000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+const productSchema = new mongoose.Schema({
   title: String,
   price: String,
   description: String,
   id: Number,
 });
-const productModel = mongoose.model("product", schemas);
 
-async function connect() {
-  try {
-    await client.connect();
-    console.log("connecté");
-  } catch (e) {
-    console.log(e);
-  }
-}
-connect();
-app.post("/ajout", async (req, res) => {
-  console.log(req.body);
-  const db = client.db("tache21");
-  const collection = db.collection("product");
-  const data = new productModel({
-    title: req.body.title,
-    price: req.body.price,
-    description: req.body.description,
-    id: req.body.id,
-  });
-  await collection.insertMany([data]);
-  res.status(201).json({
-    message: "Tâche ajoutée avec succès",
+const productModel = mongoose.model("Product", productSchema);
+
+const mongoURI =
+  "mongodb+srv://gayefatimabinetou:gRyoV5xgEsPyivTt@cluster0.3loxuhp.mongodb.net/tache21?retryWrites=true&w=majority";
+mongoose.connect(mongoURI).then(() => {
+  console.log("Connected to MongoDB");
+
+  // Post Products
+  app.post("/ajout", async (req, res) => {
+    try {
+      const { title, price, description, id } = req.body;
+      const newProduct = new productModel({ title, price, description, id });
+      await newProduct.save();
+      res.status(201).json({ message: "Product ajouté", product: newProduct });
+    } catch (err) {
+      res.status(500).json({ message: "Pas ajouté" });
+    }
   });
 
-  //   const { title, price, description } = req.body;
-  //   const db = client.db("tache21");
-  //   const collection = db.collection("product");
-  //   const insert = new product({
-  //     title: title,
-  //     price: price,
-  //     description: description,
-  //   });
-  //   await collection.insertMany([insert]);
-  //   res.status(201).json({
-  //     message: "Tâche ajoutée avec succès",
-  //     title: title,
-  //     price: price,
-  //     description: description,
-  //   });
+  //    GET Products
+  app.get("/recup", async (req, res) => {
+    try {
+      const products = await productModel.find();
+      res.json(products);
+    } catch (err) {
+      res.status(500).json({ message: "err" });
+    }
+  });
+  // Modify Products
+  app.patch("/update/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { title, price, description } = req.body;
+      const updatedProduct = await productModel.findByIdAndUpdate(
+        id,
+        { $set: { title, price, description } },
+        { new: true }
+      );
+
+      if (!updatedProduct) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      res.status(200).json(updatedProduct);
+    } catch (err) {
+      res.status(500).json({ message: "An error occurred: " + err.message });
+    }
+  });
 });
-app.get("/recup", async (req, res) => {
-  try {
-    const db = client.db("tache21");
-    const collection = db.collection("product");
-    const tasks = await collection.find().toArray();
-    res.json(tasks);
-  } catch {
-    console.log("error");
-  }
-});
-app.put("/update/:id", async (req, res) => {
+// DELETE Product by ID
+app.delete("/delete/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
-    const { title, price, description } = req.body;
-    const updatedProduct = await productModel.findOneAndUpdate(
-      { id: Number(id) },
-      { title, price, description },
-      { new: true }
-    );
 
-    if (!updatedProduct) {
+    const deletedProduct = await productModel.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    res.json(updatedProduct);
+    res.status(200).json({ message: "Product deleted", deletedProduct });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to update product", error: error.message });
+    console.error("Error deleting product:", error);
+    res.status(500).json({
+      message: "An error occurred while deleting the product.",
+    });
   }
 });
 
-// Démarrage du savoir
 app.listen(PORT, () => {
-  console.log(`localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
