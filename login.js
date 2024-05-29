@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
-const RouterUser = require("./routes/user")
+const RouterUser = require("./router/user")
 
 
 mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',{
