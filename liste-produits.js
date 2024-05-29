@@ -107,3 +107,18 @@ app.get('/user/liste-produits/:id', async (req, res, next) => {
         res.status(500).send(e)
     }
 })
+
+
+
+
+
+// Creer une route pour afficher une localisation
+app.get('/location', (req, res) => {
+    const location = {
+        latitude: 14.7437625,   
+        longitude: -17.4557196   
+    };
+
+    res.json(location);
+});
+
