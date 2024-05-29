@@ -1,6 +1,7 @@
 const User = require('../models/password');
 const bcrypt = require('bcryptjs');
 
+
 exports.createPassword = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -56,5 +57,15 @@ exports.adminChangePassword = async (req, res) => {
     res.send('Mot de passe utilisateur modifié avec succès');
   } catch (error) {
     res.status(500).send('Erreur lors de la modification du mot de passe utilisateur');
+  }
+};
+
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).send('Erreur lors de la récupération des utilisateurs');
   }
 };
