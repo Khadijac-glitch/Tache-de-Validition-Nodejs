@@ -17,7 +17,6 @@ app.listen(port, () => {
 
 
 //Ajouter un produit  ===> admin
-// let id_supprimer_produit = '6654b5c5d96cf23f9fcd96c9'
 app.post(`/admin/liste-produits`, async (req, res, next) => {
     try {
         const produit = new Produit(req.body)
@@ -42,7 +41,6 @@ app.get('/admin/liste-produits', async (req, res, next) => {
 
 
 // // Voir les details d'un produit ===> admin
-// let id = '6654b5c5d96cf23f9fcd96c9'
 app.get('/admin/liste-produits/:id', async (req, res, next) => {
     const produitId = req.params.id
     try {
@@ -56,7 +54,6 @@ app.get('/admin/liste-produits/:id', async (req, res, next) => {
 
 
 // // Modifier un produit  ===> admin
-// let id_modifier_produit = '6654b5c5d96cf23f9fcd96c9'
 app.patch(`/admin/liste-produits/:id`, async (req, res, next) => {
     const produitId = req.params.id
 
@@ -71,7 +68,6 @@ app.patch(`/admin/liste-produits/:id`, async (req, res, next) => {
 
 
 // //Supprimer un produit ===> admin
-// let id_supprimer_produit = '6654b5c5d96cf23f9fcd96c9'
 app.delete(`/admin/liste-produits/:id`, async (req, res, next) => {
     const produitId = req.params.id
 
