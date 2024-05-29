@@ -17,7 +17,6 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
 app.use(bodyParser.json())
 app.use('/users/', RouteUsers);
 app.use('/admin/', RouteUsers);
-// app.use('/email', require('./ema'));
 
 app.listen(8000, () => {
     console.log(`Serveur en cours d'exécution sur le port 8000`);
