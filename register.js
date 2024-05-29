@@ -3,7 +3,9 @@ const app  = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const RouteUsers = require('./router/register');
-mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+ 
+)
 
 .then(() => {
     console.log('connexion success !')
@@ -11,13 +13,13 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
 .catch((error) => {
     console.log('Erreur de connexion');
 });
-app.post('/',(req,res) => {
-    res.send('/api/users/')
-    console.log("réussi avec succès")
-});
-
 
 app.use(bodyParser.json())
-app.use('/api/users/', RouteUsers);
+app.use('/users/', RouteUsers);
+app.use('/admin/', RouteUsers);
+// app.use('/email', require('./ema'));
 
+app.listen(8000, () => {
+    console.log(`Serveur en cours d'exécution sur le port 8000`);
+  });
 module.exports = app;
