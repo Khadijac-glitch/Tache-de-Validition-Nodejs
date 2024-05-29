@@ -81,7 +81,6 @@ app.delete(`/admin/liste-produits/:id`, async (req, res, next) => {
 })
 
 
-
                             // Pour les users
 
 // Voir la liste de tous les produits  ===> admin
@@ -93,7 +92,6 @@ app.get('/user/liste-produits', async (req, res, next) => {
         res.status(500).send(e)
     }
 })
-
 
 
 // // Voir les details d'un produit ===> admin
