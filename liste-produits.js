@@ -27,7 +27,6 @@ app.post(`/admin/liste-produits`, async (req, res, next) => {
     }
 })
 
-
 // Voir la liste de tous les produits  ===> admin
 app.get('/admin/liste-produits', async (req, res, next) => {
     try {
@@ -37,8 +36,6 @@ app.get('/admin/liste-produits', async (req, res, next) => {
         res.status(500).send(e)
     }
 })
-
-
 
 // // Voir les details d'un produit ===> admin
 app.get('/admin/liste-produits/:id', async (req, res, next) => {

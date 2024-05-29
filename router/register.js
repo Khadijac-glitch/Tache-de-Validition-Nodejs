@@ -1,6 +1,6 @@
 const express  = require('express')
 const router = express.Router()
-const ProdCtrl = require('../controllers/connexion');
+const ProdCtrl = require('../controllers/register');
 // User CRUD
 router.post('/:register', ProdCtrl.createUser);
 router.get('/:user', ProdCtrl.getOneUser);

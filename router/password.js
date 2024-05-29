@@ -1,14 +1,9 @@
-const express  = require('express')
-const router = express.Router()
-const ProdCtrl = require('../contollers/password');
+const express = require('express');
+const userController = require('../contollers/password');
+const router = express.Router();
 
-
-router.post('/', ProdCtrl.createNewPassword);
-router.get('/:users', ProdCtrl.getAllPassword);
-router.patch('/:id', ProdCtrl.patchPassword);
-
-
+router.post('/create-password', userController.createPassword);
+router.post('/change-password', userController.changePassword);
+router.post('/admin/change-password', userController.adminChangePassword);
 
 module.exports = router;
-
-
