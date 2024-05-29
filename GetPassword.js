@@ -1,23 +1,23 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
-const GetPassword = express();
+const bodyParser = require('body-parser');
 const userRoutes = require('./router/password');
+const GetPassword = express();
+GetPassword.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://madjiguened835:Hr0NWZprD4lcz1BH@get-password.sot5wfh.mongodb.net/?retryWrites=true&w=majority&appName=get-password')
-    .then(() => {
-        console.log('Connexion réussie à MongoDB!');
-    })
-    .catch((error) => {
-        console.log('Erreur de connexion à MongoDB:', error);
-    });
+mongoose.connect('mongodb+srv://madjiguened835:Hr0NWZprD4lcz1BH@get-password.sot5wfh.mongodb.net/?retryWrites=true&w=majority&appName=get-password', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log('Connexion réussie!');
+})
+.catch((error) => {
+  console.error('Erreur de connexion à MongoDB:', error);
+});
 
-    GetPassword.use(bodyParser.json());
+GetPassword.use('/user', userRoutes);
 
-    GetPassword.use('/user', userRoutes);
-
-    GetPassword.listen(4000,()=>{
-        console.log('Server is running at localhost:4000');
-    });
-    
+GetPassword.listen(4000, () => {
+  console.log(`Serveur en cours d'exécution sur le port ${4000}`);
+});
