@@ -2,13 +2,13 @@ const express  = require('express')
 const router = express.Router()
 const ProdCtrl = require('../controllers/register');
 // User CRUD
-router.post('/:register', ProdCtrl.createUser);
-router.get('/:user', ProdCtrl.getOneUser);
-router.patch('/:id', ProdCtrl.patchUser);
-router.delete('/:id', ProdCtrl.deleteUser);
+router.post('/register', ProdCtrl.createUser);
+router.get('/:get-user', ProdCtrl.getOneUser);
+router.patch('/patch-user/:id', ProdCtrl.patchUser);
+router.delete('/delete-user/:id', ProdCtrl.deleteUser);
 // Admin CRUD
-router.post('/:register', ProdCtrl.createAdminUser);
-router.patch('/:id', ProdCtrl.patchAdmin);
-router.delete('/:id', ProdCtrl.deleteAdmin);
+router.post('/:admin-register', ProdCtrl.createAdminUser);
+router.patch('/patch-admin/:id', ProdCtrl.patchAdmin);
+router.delete('/delete-admin/:id', ProdCtrl.deleteAdmin);
 
 module.exports = router;
