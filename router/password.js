@@ -1,5 +1,5 @@
 const express = require('express');
-const userController = require('../contollers/password');
+const userController = require('../controllers/password');
 const router = express.Router();
 
 router.post('/create-password', userController.createPassword);
