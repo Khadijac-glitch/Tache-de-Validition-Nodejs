@@ -84,7 +84,7 @@ app.delete(`/admin/liste-produits/:id`, async (req, res, next) => {
 
                             // Pour les users
 
-// Voir la liste de tous les produits  ===> admin
+// Voir la liste de tous les produits  ===> user
 app.get('/user/liste-produits', async (req, res, next) => {
     try {
         const produits = await Produit.find({})
@@ -96,7 +96,7 @@ app.get('/user/liste-produits', async (req, res, next) => {
 
 
 
-// // Voir les details d'un produit ===> admin
+// // Voir les details d'un produit ===> user
 app.get('/user/liste-produits/:id', async (req, res, next) => {
     const produitId = req.params.id
     try {
@@ -112,7 +112,7 @@ app.get('/user/liste-produits/:id', async (req, res, next) => {
 
 
 
-// Creer une route pour afficher une localisation
+// Creer une route pour afficher la localisation du restaurant
 app.get('/location', (req, res) => {
     const location = {
         latitude: 14.7437625,   
@@ -121,4 +121,3 @@ app.get('/location', (req, res) => {
 
     res.json(location);
 });
-
