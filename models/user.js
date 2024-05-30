@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 // Define a schema
 const Schema = mongoose.Schema;
 
-const users = new Schema({
+const usersLogin = new Schema({
     email: {
         type: String,
         required: true,
@@ -23,7 +23,7 @@ const users = new Schema({
 })
 
 
-users.statics.findUser = async(email, password) => {
+usersLogin.statics.findUser = async(email, password) => {
     const user = await User.findOne({'email': email});
     if (!user) throw new Error('Erreur, pas possible de se connecter!');
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -31,5 +31,5 @@ users.statics.findUser = async(email, password) => {
     return user;
 }
 
-const User = mongoose.model("User", users)
-module.exports = User;
+const UserLogin = mongoose.model("UserLogin", usersLogin)
+module.exports = usersLogin;
