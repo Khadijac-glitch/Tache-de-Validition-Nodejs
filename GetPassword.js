@@ -22,9 +22,9 @@ mongoose.connect('mongodb+srv://madjiguened835:Hr0NWZprD4lcz1BH@get-password.sot
 
 GetPassword.use('/passwords', userRoutes);
 
-GetPassword.listen(5000, () => {
-  console.log(`Serveur en cours d'exécution sur le port ${5000}`);
-});
+// GetPassword.listen(5000, () => {
+//   console.log(`Serveur en cours d'exécution sur le port ${5000}`);
+// });
 
-
+// module.exports = GetPassword;
 

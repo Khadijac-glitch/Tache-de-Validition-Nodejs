@@ -18,7 +18,8 @@ app.use(bodyParser.json())
 app.use('/users/', RouteUsers);
 app.use('/admin/', RouteUsers);
 
-app.listen(8000, () => {
-    console.log(`Serveur en cours d'exécution sur le port 8000`);
-  });
+// app.listen(8000, () => {
+//     console.log(`Serveur en cours d'exécution sur le port 8000`);
+//   });
+  
 module.exports = app;
