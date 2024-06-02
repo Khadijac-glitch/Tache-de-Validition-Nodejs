@@ -51,18 +51,19 @@ router.get('/orders/:id', async (req, res) => {
     }
 });
 
-// // tous les  commandes
-// router.get('/orders', async (req, res) => {
-//     try {
-//         const order = await Order.findAll(req.params.id).populate('user').populate('dishes');
-//         if (!order) {
-//             return res.status(404).json({ error: 'Order not found' });
-//         }
-//         res.json(order);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Failed to fetch order' });
-//     }
-// });
+// tous les  commandes
+router.get('/orders', async (req, res) => {
+    try {
+        const order = await Order.find({}).populate('user').populate('dishes');
+        if (!order) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+        res.json(order);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Failed to fetch order' });
+    }
+});
 // mettre à jour une commande
 router.put('/orders/:id', async (req, res) => {
     try {
