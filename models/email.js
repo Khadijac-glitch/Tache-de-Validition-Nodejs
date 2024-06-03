@@ -3,11 +3,11 @@ require('dotenv').config();
 
 // Configuration du transporteur d'e-mails
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: 'Gmail',
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
+        // user: 'passpartoutsn@gmail.com',
+        // pass: 'afaq ywrb asby baky',
+      }
 });
 
 const sendEmail = (to, subject, text) => {
@@ -22,3 +22,4 @@ const sendEmail = (to, subject, text) => {
 };
 
 module.exports = sendEmail;
+

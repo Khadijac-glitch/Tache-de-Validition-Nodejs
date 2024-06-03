@@ -10,7 +10,7 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
     console.log('connexion success !')
 })
 .catch((error) => {
-    console.log('Erreur de connexion');
+    console.log('Erreur de connexion',error);
 });
 app.use(express.json());
 
