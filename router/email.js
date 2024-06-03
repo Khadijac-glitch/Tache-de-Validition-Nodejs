@@ -18,12 +18,5 @@ router.post('/send', (req, res) => {
 module.exports = router;
 
 
-// const express  = require('express')
-// const router = express.Router()
-// const ProdCtrl = require('../controllers/email');
-
-// // User CRUD
-// router.post('/send-email', ProdCtrl.sendEmail);
-
 
  
