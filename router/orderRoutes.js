@@ -77,10 +77,37 @@ router.put('/orders/:id', async (req, res) => {
     }
 });
 
+// mettre à jour des commandes
+router.put('/orders', async (req, res) => {
+    try {
+        const order = await Order.findAndUpdate( req.body, { new: true }).populate('user').populate('dishes');
+        if (!order) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+        res.json(order);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update order' });
+    }
+});
+
+
 // supprimer une commande
 router.delete('/orders/:id', async (req, res) => {
     try {
         const order = await Order.findByIdAndDelete(req.params.id);
+        if (!order) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+        res.json({ message: 'Order deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete order' });
+    }
+});
+
+// supprimer des commandes
+router.delete('/orders', async (req, res) => {
+    try {
+        const order = await Order.findAndDelete({});
         if (!order) {
             return res.status(404).json({ error: 'Order not found' });
         }
