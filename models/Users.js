@@ -5,4 +5,4 @@ const userSchema = new mongoose.Schema({
     username: String,
     // autres champs
 });
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Login', userSchema);
