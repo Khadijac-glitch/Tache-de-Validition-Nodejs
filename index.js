@@ -1,24 +1,22 @@
-require('dotenv').config();
-const {connectDb} = require('./services/mongoose')
-const Produit = require('./models/product')
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const orderRoutes = require('./router/orderRoutes');
+const app = express();
 
 
-connectDb().catch(err => console.log(err))
+app.use(cors());
+app.use(express.json());
 
-app.listen(port, () => {
-    console.log('Le serveur est lancé');
-})
+mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',)
+.then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
 
-
-app.get('/liste-produits', async (req, res, next) => {
-    try {
-        const produits = await Produit.find({})
-        res.send(produits)
-    } catch (e) {
-        res.status(500).send(e)
-    }
-})
+  app.use('/api', orderRoutes);
+  
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+  });
 
