@@ -1,13 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const { MongoClient } = require("mongodb");
+const cors = require("cors");
 
 const app = express();
 const PORT = 4000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 const productSchema = new mongoose.Schema({
   title: String,
   price: String,
@@ -43,6 +44,12 @@ mongoose.connect(mongoURI).then(() => {
       res.status(500).json({ message: "err" });
     }
   });
+  // Get By Id
+  // app.get("/recup/:id", async (req, res) => {
+  //   const { id } = req.params;
+  //   const test = await productModel.findById(id);
+  //   res.status(200).json({ message: "recupéré avec succés", test: test });
+  // });
   // Modify Products
   app.patch("/update/:id", async (req, res) => {
     try {
@@ -63,25 +70,25 @@ mongoose.connect(mongoURI).then(() => {
       res.status(500).json({ message: "An error occurred: " + err.message });
     }
   });
-});
-// DELETE Product by ID
-app.delete("/delete/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
+  // DELETE Product by ID
+  app.delete("/delete/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
 
-    const deletedProduct = await productModel.findByIdAndDelete(id);
+      const deletedProduct = await productModel.findByIdAndDelete(id);
 
-    if (!deletedProduct) {
-      return res.status(404).json({ message: "Product not found" });
+      if (!deletedProduct) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      res.status(200).json({ message: "Product deleted", deletedProduct });
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      res.status(500).json({
+        message: "An error occurred while deleting the product.",
+      });
     }
-
-    res.status(200).json({ message: "Product deleted", deletedProduct });
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    res.status(500).json({
-      message: "An error occurred while deleting the product.",
-    });
-  }
+  });
 });
 
 app.listen(PORT, () => {
