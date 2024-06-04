@@ -1,7 +1,6 @@
 const User = require ('../models/register');
 
 exports.createUser = (req, res) => {
-    console.log(req.body);
     const user = new User(req.body);
     user.save()
    .then((utilisateur) => {
