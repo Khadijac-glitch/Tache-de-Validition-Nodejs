@@ -5,7 +5,7 @@ const userRoutes = require('./router/password');
 const GetPassword = express();
 GetPassword.use(bodyParser.json());
 
-
+ 
 GetPassword.use((req, res, next) => {
     console.log( req.body);
     next();
