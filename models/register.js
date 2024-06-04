@@ -36,11 +36,4 @@ const userRegister = mongoose.Schema({
     }
 
 });
-<<<<<<< HEAD
-
-
-module.exports = mongoose.model('Test', userRegister);
-
-=======
-module.exports = mongoose.model('Register', user);
->>>>>>> 03d86255ec07208b4d6c8c30a933c1355a577ef0
+module.exports = mongoose.model('Register', userRegister);
