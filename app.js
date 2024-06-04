@@ -16,8 +16,6 @@ app.post('/',(req,res) => {
     res.send('/api/users/')
     console.log("réussi avec succès")
 });
-
-
 app.use(bodyParser.json())
 app.use('/api/users/', RouteUsers);
 app.use('/api/admin/', RouteUsers);
