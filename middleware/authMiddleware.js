@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/Users');
+const User = require('../models/register');
 
-// pour vérifier les jetons JWT dans les requêtes protégées.
 const authMiddleware = async (req, res, next) => {
     let token;
 

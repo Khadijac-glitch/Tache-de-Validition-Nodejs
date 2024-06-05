@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
-  service: "gmail", // Utilisez le service de votre choix
+  service: "gmail",
   auth: {
     user: "passpartoutsn@gmail.com",
     pass: "afaq ywrb asby baky",
@@ -44,7 +44,15 @@ const user = mongoose.Schema({
         throw new Error("Le mot de passe doit etre entre 4 et 20 caractères!");
     },
   },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+},
 });
+ 
+
+
 user.post("save", async function (doc) {
   // Configurer les options de l'email
   const mailOptions = {

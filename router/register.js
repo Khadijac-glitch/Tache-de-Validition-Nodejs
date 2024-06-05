@@ -2,10 +2,11 @@ const express  = require('express')
 const router = express.Router()
 const ProdCtrl = require('../controllers/register');
 const PradCtrl = require('../controllers/email');
+const { authenticateToken, isAdmin } = require('../middleware/auth');
 
 // User CRUD
-router.post('/register', ProdCtrl.createUser);
-router.get('/:get-user', ProdCtrl.getOneUser);
+router.post('/register',ProdCtrl.createUser);
+router.get('/:get-user',ProdCtrl.getOneUser);
 router.patch('/patch-user/:id', ProdCtrl.patchUser);
 router.delete('/delete-user/:id', ProdCtrl.deleteUser);
 // Admin CRUD
