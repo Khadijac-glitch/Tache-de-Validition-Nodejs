@@ -22,13 +22,13 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
 .catch((error) => {
     console.log('Erreur de connexion');
 });
+
 app.use(cors());
 app.use(express.json());
-
-
 app.use(bodyParser.json())
+
 app.use('/users/', RouteUsers);
-app.use('/admin/', RouteUsers);
+app.use('/api/admin/', RouteUsers);
 // app.use('/email/', RouteUsers);
 app.use('/email', emailRoutes); 
 

@@ -5,7 +5,7 @@ const PradCtrl = require('../controllers/email');
 
 // User CRUD
 router.post('/register', ProdCtrl.createUser);
-router.get('/:get-user', ProdCtrl.getOneUser);
+router.get('/users', ProdCtrl.getUsers);
 router.patch('/patch-user/:id', ProdCtrl.patchUser);
 router.delete('/delete-user/:id', ProdCtrl.deleteUser);
 // Admin CRUD

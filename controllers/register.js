@@ -18,12 +18,10 @@ exports.createAdminUser = (req, res) => {
    })
    .catch((error) => { return res.status(400).json({error}) });
 }
-exports.getOneUser = (req, res) => {
-    const user = req.params.id;
-    console.log(user);
-   User.find({user:user})
+exports.getUsers = (req, res) => {
+   User.find()
     .then ((utilisateur) =>{
-     return res.status(200).json({utilisateur})} )
+     return res.status(200).json(utilisateur)} )
     .catch((error) =>{
         console.log(error);
      return res.status(400).json({error}) });
