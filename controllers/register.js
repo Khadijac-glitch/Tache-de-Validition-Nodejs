@@ -9,6 +9,7 @@ exports.createUser = (req, res) => {
    })
    .catch((error) => { return res.status(400).json({error}) });
 }
+
 exports.createAdminUser = (req, res) => {
     console.log(req.body);
     const user = new User(req.body);
