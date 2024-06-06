@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const user = mongoose.Schema({
+const userRegister = mongoose.Schema({
     firstName:{
     type:String,
     required:true,
@@ -14,7 +14,7 @@ const user = mongoose.Schema({
         required:true,
         validate(v) {
         if(!validator.isEmail(v)) throw new Error('Email non valide!');   
-     }
+    }
     },
     number:{
         type:Number,
@@ -36,4 +36,4 @@ const user = mongoose.Schema({
     }
 
 });
-module.exports = mongoose.model('Register', user);
+module.exports = mongoose.model('Register', userRegister);
