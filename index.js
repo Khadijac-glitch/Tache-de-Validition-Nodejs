@@ -8,8 +8,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',)
 
-mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',)
+// mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',)
 .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
@@ -19,4 +20,3 @@ mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/
   app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
   });
-

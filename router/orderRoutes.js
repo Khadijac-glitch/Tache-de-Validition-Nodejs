@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Orders');
-const User = require('../models/User');
+const Users = require('../models/Users');
 const Dish = require('../models/Dish');
 
 //  créer une commande
@@ -10,7 +10,7 @@ router.post('/orders', async (req, res) => {
     const { userId, dishIds, delivery } = req.body;
 
     try {
-        const user = await User.findById(userId);
+        const user = await Users.findById(userId);
         const dishes = await Dish.find({ '_id': { $in: dishIds } });
 
         if (!user || dishes.length === 0) {
