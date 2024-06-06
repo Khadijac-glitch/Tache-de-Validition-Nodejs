@@ -1,18 +1,50 @@
 {
+
   "name": "tache-de-validation-nodejs",
+
   "version": "1.0.0",
+
   "description": "backend",
-  "main": "index.js",
+
+  "main": "server.js",
+
   "scripts": {
+
     "test": "echo \"Error: no test specified\" && exit 1"
+
   },
+
   "author": "Khadija",
+
   "license": "ISC",
+
   "dependencies": {
+
+    "bcryptjs": "^2.4.3",
+
     "body-parser": "^1.20.2",
+
+    "cors": "^2.8.5",
+
     "dotenv": "^16.4.5",
+
     "express": "^4.19.2",
+<<<<<<< HEAD
     "mongoose": "^8.4.0",
+=======
+
+    "mongodb": "^6.6.2",
+
+    "mongoose": "^8.4.1",
+
+    "nodemailer": "^6.9.13",
+
+    "nodemon": "^3.1.2",
+
+>>>>>>> 78e3ede38f423c9667180f7ed2a9868f987d99f2
     "validator": "^13.12.0"
+
   }
+
 }
+
