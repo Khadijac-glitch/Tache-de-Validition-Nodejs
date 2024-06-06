@@ -2,7 +2,7 @@ const UserRegister = require("../models/register");
 
 exports.createUser = (req, res) => {
   console.log(req.body);
-  const user = new User(req.body);
+  const user = new UserRegister(req.body);
   user
     .save()
     .then((utilisateur) => {
@@ -14,7 +14,7 @@ exports.createUser = (req, res) => {
 };
 exports.createAdminUser = (req, res) => {
   console.log(req.body);
-  const user = new User(req.body);
+  const user = new UserRegister(req.body);
   user
     .save()
     .then((utilisateur) => {
@@ -27,7 +27,7 @@ exports.createAdminUser = (req, res) => {
 exports.getOneUser = (req, res) => {
   const user = req.params.id;
   console.log(user);
-  User.find({ user: user })
+  UserRegister.find({ user: user })
     .then((utilisateur) => {
       return res.status(200).json({ utilisateur });
     })
@@ -40,7 +40,7 @@ exports.getOneUser = (req, res) => {
 exports.patchUser = (req, res) => {
   const user = req.params.id;
   console.log(user);
-  User.findByIdAndUpdate(user, req.body, {
+  UserRegister.findByIdAndUpdate(user, req.body, {
     new: true,
     runValidators: true,
   })
@@ -55,7 +55,7 @@ exports.patchUser = (req, res) => {
 exports.patchAdmin = (req, res) => {
   const user = req.params.id;
   console.log(user);
-  User.findByIdAndUpdate(user, req.body, {
+  UserRegister.findByIdAndUpdate(user, req.body, {
     new: true,
     runValidators: true,
   })
@@ -70,7 +70,7 @@ exports.patchAdmin = (req, res) => {
 exports.deleteUser = (req, res) => {
   const user = req.params.id;
   console.log(user);
-  User.findByIdAndDelete(user)
+  UserRegister.findByIdAndDelete(user)
     .then((utilisateur) => {
       return res.status(200).json({ utilisateur });
     })
@@ -82,7 +82,7 @@ exports.deleteUser = (req, res) => {
 exports.deleteAdmin = (req, res) => {
   const user = req.params.id;
   console.log(user);
-  User.findByIdAndDelete(user)
+  UserRegister.findByIdAndDelete(user)
     .then((utilisateur) => {
       return res.status(200).json({ utilisateur });
     })
