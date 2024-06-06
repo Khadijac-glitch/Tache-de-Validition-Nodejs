@@ -26,4 +26,7 @@ app.listen(port, () => {
 
 
 
+// j'ai integrer la base de donnée Mongoose pour stocker les commandes.
+
+
 
