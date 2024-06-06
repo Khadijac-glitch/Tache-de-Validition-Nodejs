@@ -9,6 +9,8 @@ const userRoutes = require('./router/password');
 const RouterUser = require("./router/user")
 const emailRoutes = require('./router/email');
 const reservationRoutes = require('./router/reservation');
+const predictRoutes = require('./router/predict');
+
 
 mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',)
 // mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',
@@ -24,21 +26,19 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
 });
 app.use(cors());
 app.use(express.json());
-
-
-
 app.use(bodyParser.json())
-app.use('/users/', RouteUsers);
-app.use('/admin/', RouteUsers);
-// app.use('/email/', RouteUsers);
-app.use('/email', emailRoutes); 
 
-app.use('/passwords', userRoutes);
-app.use('/api/users/', RouterUser);
-app.use('/api', reservationRoutes);
+app.use('/api/users/', RouteUsers);
+app.use('/api/users/', predictRoutes);
+app.use('/api/admin/', RouteUsers);
+app.use('/api/email', emailRoutes); 
 
-app.listen(8000, () => {
-    console.log(`Serveur en cours d'exécution sur le port 8000`);
+app.use('/api/passwords', userRoutes);
+app.use('/api/login/', RouterUser);
+app.use('/api/reservation', reservationRoutes);
+
+app.listen(8080, () => {
+    console.log(`Serveur en cours d'exécution sur le port 8080`);
   });
 
 

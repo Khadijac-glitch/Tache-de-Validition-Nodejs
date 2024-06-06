@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/register");
 
 exports.createUser = (req, res) => {
+<<<<<<< HEAD
   const user = new User(req.body);
   user
     .save()
@@ -17,6 +18,16 @@ exports.createUser = (req, res) => {
       return res.status(400).json({ error });
     });
 };
+=======
+    console.log(req.body);
+    const user = new User(req.body);
+    user.save()
+   .then((utilisateur) => {
+    return res.status(201).json({utilisateur})
+   })
+   .catch((error) => { return res.status(400).json({error}) });
+}
+>>>>>>> 78e3ede38f423c9667180f7ed2a9868f987d99f2
 
 exports.createAdminUser = (req, res) => {
   const user = new User(req.body);
