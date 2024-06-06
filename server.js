@@ -2,6 +2,7 @@ const express = require('express');
 const app  = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const RouteUsers = require('./router/register');
 const userRoutes = require('./router/password');
 const RouterUser = require("./router/user")
@@ -12,23 +13,15 @@ const localisationRoutes = require("./router/localisation-resto");
 
 
 
-//Erreur CORS
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next();
-});
+
 
 
 //Connexion base de donnees
-mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
+// mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
+const predictRoutes = require('./router/predict');
+
+
+mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',)
 // mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',
 // )
 
@@ -60,24 +53,28 @@ mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hns
 
 
 
+app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json())
-app.use('/users/', RouteUsers);
-app.use('/admin/', RouteUsers);
-// app.use('/email/', RouteUsers);
-app.use('/email', emailRoutes); 
 
-app.use('/passwords', userRoutes);
-app.use('/api/users/', RouterUser);
-app.use('/api', reservationRoutes);
+app.use('/api/users/', RouteUsers);
+app.use('/api/users/', predictRoutes);
+app.use('/api/admin/', RouteUsers);
+app.use('/api/email', emailRoutes); 
 
 
 app.use("/admin", adminRouteProduit);
 app.use("/user", adminRouteProduit);
 app.use(localisationRoutes);
 
-app.listen(8000, () => {
-    console.log(`Serveur en cours d'exécution sur le port 8000`);
-});
+
+app.use('/api/passwords', userRoutes);
+app.use('/api/login/', RouterUser);
+app.use('/api/reservation', reservationRoutes);
+
+app.listen(8080, () => {
+    console.log(`Serveur en cours d'exécution sur le port 8080`);
+  });
 
 
 
