@@ -23,3 +23,11 @@ const isAdmin = (req, res, next) => {
 };
 
 module.exports = { authenticateToken, isAdmin };
+
+// const express = require('express');
+// const { authenticateToken, isAdmin } = require('./path-to-middleware');
+// const app = express();
+
+// app.get('/admin', authenticateToken, isAdmin, (req, res) => {
+//     res.send('Welcome Admin!');
+// });
