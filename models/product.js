@@ -6,5 +6,4 @@ const Produit = mongoose.model('Produit', {
         price: Number
     })
 
-
 module.exports = Produit;
