@@ -50,6 +50,10 @@
 
     "nodemon": "^3.1.2",
 
+    "swagger-jsdoc": "^6.2.8",
+
+    "swagger-ui-express": "^5.0.1",
+
     "validator": "^13.12.0"
 
   }

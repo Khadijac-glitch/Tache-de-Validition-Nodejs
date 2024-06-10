@@ -7,13 +7,21 @@ const cors = require('cors');
 const RouteUsers = require('./router/register');
 const userRoutes = require('./router/password');
 // const RouterUser = require("./router/user")
-// const emailRoutes = require('./router/email');
+const emailRoutes = require('./router/email');
 const reservationRoutes = require('./router/reservation');
 const adminRouteProduit = require("./router/liste-produit");
 const localisationRoutes = require("./router/localisation-resto");
 
+//Swagger
+const { swaggerUi, swaggerSpec} = require('./swagger')
 
 
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.json());
+
+// Route pour avoir la documentation Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 
@@ -55,9 +63,6 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
 
 
 
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.json())
 
 app.use('/api/register', RouteUsers);
 app.use('/api/auth', require('./router/auth'));
