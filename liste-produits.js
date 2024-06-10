@@ -82,7 +82,7 @@ app.delete(`/admin/liste-produits/:id`, async (req, res, next) => {
 
 
 
-                            // Pour les users
+ // Pour les users  
 
 // Voir la liste de tous les produits  ===> user
 app.get('/user/liste-produits', async (req, res, next) => {
