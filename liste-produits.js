@@ -108,10 +108,6 @@ app.get('/user/liste-produits/:id', async (req, res, next) => {
     }
 })
 
-
-
-
-
 // Creer une route pour afficher la localisation du restaurant
 app.get('/localisation', (req, res) => {
     const location = {
