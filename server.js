@@ -81,9 +81,9 @@ app.use('/api/reservation', reservationRoutes);
 
 
 // Redirection de la racine vers /api-docs
-app.get('/', (req, res) => {
-  res.redirect('/api-docs');
-});
+// app.get('/', (req, res) => {
+//   res.redirect('/api-docs');
+// });
 
 
 
