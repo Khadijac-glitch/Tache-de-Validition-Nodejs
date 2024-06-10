@@ -11,7 +11,7 @@ const reservationRoutes = require('./router/reservation');
 const adminRouteProduit = require("./router/liste-produit");
 const localisationRoutes = require("./router/localisation-resto");
 
-
+const orderRoutes = require('./router/index-reserve')
 
 
 
@@ -32,6 +32,17 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
 })
 .catch((error) => {
     console.log('Erreur de connexion');
+});
+
+
+// Connexion à MongoDB
+mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('Error connecting to MongoDB', err);
 });
 
 
@@ -71,6 +82,13 @@ app.use(localisationRoutes);
 app.use('/api/passwords', userRoutes);
 app.use('/api/login/', RouterUser);
 app.use('/api/reservation', reservationRoutes);
+
+
+app.use('/reservation', orderRoutes); //test
+
+
+
+
 
 app.listen(8080, () => {
     console.log(`Serveur en cours d'exécution sur le port 8080`);
