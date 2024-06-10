@@ -2,9 +2,10 @@ require('dotenv').config();
 const express = require('express');
 // const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
-const Reservation = require('../models/Reservation');
+const Reservation = require('../models/commandeReservation');
+// const Reservation = require('../models/Reservation')
 const { getMaxListeners } = require('nodemailer/lib/xoauth2');
-const app = express();
+const app = express.Router();
 // const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
