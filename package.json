@@ -40,11 +40,6 @@
 
     "express": "^4.19.2",
 
-<<<<<<< HEAD
-    "express-validator": "^7.1.0",
-
-=======
->>>>>>> 33b5baf9da2b7ed0350df43b36df5e1a6b840c32
     "jsonwebtoken": "^9.0.2",
 
     "mongodb": "^6.6.2",
