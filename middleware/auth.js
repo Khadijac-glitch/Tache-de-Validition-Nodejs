@@ -1,33 +1,20 @@
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
-const authenticateToken = (req, res, next) => {
-    const token = req.headers['authorization'];
+module.exports = function(req, res, next) {
+    const token = req.header('auth-token');
     if (!token) {
-        return res.sendStatus(403);
+      return res.status(401).json({ msg: 'autorisation refusée' });
     }
-
-    jwt.verify(token, 'secret_key', (err, user) => {
-        if (err) {
-            return res.sendStatus(403);
-        }
-        req.user = user;
-        next();
-    });
-};
-
-const isAdmin = (req, res, next) => {
-    if (req.user.role !== 'admin') {
-        return res.sendStatus(403);
+  
+    try {
+      const decode = jwt.verify(token, config.get('jwtSecret'));
+      req.user = decode.user;
+      next();
+    } catch (err) {
+      res.status(401).json({ msg: 'Token invalide' });
     }
-    next();
-};
+  };
 
-module.exports = { authenticateToken, isAdmin };
 
-// const express = require('express');
-// const { authenticateToken, isAdmin } = require('./path-to-middleware');
-// const app = express();
 
-// app.get('/admin', authenticateToken, isAdmin, (req, res) => {
-//     res.send('Welcome Admin!');
-// });
