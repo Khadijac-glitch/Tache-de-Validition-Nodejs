@@ -80,6 +80,12 @@ app.use('/api/passwords', userRoutes);
 app.use('/api/reservation', reservationRoutes);
 
 
+// Redirection de la racine vers /api-docs
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
+
+
 
 app.listen(8080, () => {
     console.log(`Serveur en cours d'exécution sur le port 8080`);
