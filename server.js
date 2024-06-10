@@ -62,9 +62,6 @@ app.use('/api/register', RouteUsers);
 app.use('/api/auth', require('./router/auth'));
 // app.use('/api/forguotPassword', require('./routes/forguotPassword'));
 app.use('/api/admin/', RouteUsers);
-<<<<<<< HEAD
-// app.use('/api/email', emailRoutes); 
-=======
 app.use('/api/email', emailRoutes); 
 
 
@@ -73,7 +70,6 @@ app.use("/user", adminRouteProduit);
 app.use(localisationRoutes);
 
 
->>>>>>> 5d8c406dcf031b7e6bce2ef0694a844234b9045c
 app.use('/api/passwords', userRoutes);
 app.use('/api/reservation', reservationRoutes);
 
