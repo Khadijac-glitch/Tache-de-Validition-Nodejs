@@ -6,8 +6,6 @@ const User = require('../models/register');
 
 // Controller pour la connexion 
 
-
-
 // 
 router.post('/',
   [
@@ -38,7 +36,7 @@ router.post('/',
       }
 
       console.log("Connexion réussie"); 
-      res.send("Connexion réussie");
+      res.send("Connexion réussie bienvenue");
       
     } catch (err) {
       console.error(err.message);
