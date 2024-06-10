@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Le mot de passe est requis'],
   },
- 
 });
 const User = mongoose.model('Password', userSchema);
 module.exports = User;
