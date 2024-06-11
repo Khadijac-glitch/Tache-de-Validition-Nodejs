@@ -23,11 +23,14 @@ exports.sendEmail = (req, res) => {
     });
 }
 
-exports.registerUser = async (req, res) => {
+exports.createUser = async (req, res) => {
+  const { email } = req.body;
+
   try {
     // Créer un nouvel utilisateur avec les données de la requête
-    const newUser = new User(req.body);
-    // Sauvegarder l'utilisateur dans la base de données
+    const User = new newUser({email});
+    // Sauvegarder 
+  
     const savedUser = await newUser.save();
 
     // Configurer les options de l'email
@@ -35,7 +38,7 @@ exports.registerUser = async (req, res) => {
       from: "passpartoutsn@gmail.com",
       to: savedUser.email,
       subject: "Bienvenue chez TERANGA FOOD!",
-      text: `Bonjour ${savedUser.firstName},\n\nMerci de vous !\n\nCordialement,\nL'équipe teranga`,
+      text: `Bonjour ${savedUser.firstName},\n\nMerci de vous abonnez aux news  !\n\nCordialement,\nL'équipe teranga`,
     };
 
     // Envoyer l'email
