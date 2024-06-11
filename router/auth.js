@@ -6,7 +6,6 @@ const User = require('../models/register');
 
 // Controller pour la connexion 
 
-// 
 router.post('/',
   [
     check('email', 'Veuillez entrer un email valide').isEmail(),
