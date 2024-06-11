@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 // Route pour avoir la documentation Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-
+const produitRoutes = require("./router/liste-produit");
 
 //Connexion base de donnees
 // mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
@@ -45,36 +45,6 @@ mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?
 });
 
 
-// // Fonction pour vérifier les informations d'identification
-// function checkAuth(username, password) {
-//     return username === 'admin' && password === 'secret';
-// }
-
-// Middleware pour demander l'authentification
-// function authenticate(req, res, next) {
-//     const authHeader = req.headers['authorization'];
-//     if (!authHeader) {
-//         res.setHeader('WWW-Authenticate', 'Basic realm="Login Required"');
-//         return res.status(401).send('Accès restreint. Veuillez fournir vos informations d\'identification.');
-//     }
-
-//     const base64Credentials = authHeader.split(' ')[1];
-//     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-//     const [username, password] = credentials.split(':');
-
-//     if (checkAuth(username, password)) {
-//         next();
-//     } else {
-//         res.setHeader('WWW-Authenticate', 'Basic realm="Login Required"');
-//         return res.status(401).send('Informations d\'identification invalides.');
-//     }
-// }
-
-
-// Route protégée par authentification
-// app.get('/', authenticate, (req, res) => {
-//     res.send('Vous êtes authentifié avec succès !');
-// });
 
 
 
@@ -111,6 +81,7 @@ app.use(localisationRoutes);
 
 app.use('/api/passwords', userRoutes);
 app.use('/api/reservation', reservationRoutes);
+app.use("/admin", produitRoutes); //test
 
 
 // Redirection de la racine vers /api-docs
