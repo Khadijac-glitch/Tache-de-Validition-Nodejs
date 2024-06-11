@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const RouteUsers = require('./router/register');
-// const userRoutes = require('./router/password');
-// const RouterUser = require("./router/user")
+const reservationRoutes = require('./router/reservation-table');
+const forgotPasswordRoutes = require('./router/forgotpassword');
+// const reservationRoute = require('./router/reservation');
 const emailRoutes = require('./router/email');
-// const reservationRoutes = require('./router/reservation');
 const adminRouteProduit = require("./router/liste-produit");
 const localisationRoutes = require("./router/localisation-resto");
 
@@ -37,15 +37,13 @@ app.use('/api/auth', require('./router/auth'));
 app.use('/api/admin/', RouteUsers);
 app.use('/api/email', emailRoutes); 
 
+// app.use('/api/reservation', reservationRoute);
+app.use('/api', forgotPasswordRoutes);
+app.use('/api/reservation', reservationRoutes);
 
 app.use("/admin", adminRouteProduit);
 app.use("/user", adminRouteProduit);
 app.use(localisationRoutes);
-
-
-// app.use('/api/passwords', userRoutes);
-// app.use('/api/reservation', reservationRoutes);
-
 
 
 app.listen(8080, () => {
