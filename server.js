@@ -4,6 +4,7 @@ const app  = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const functions = require('firebase-function');
 const RouteUsers = require('./router/register');
 const userRoutes = require('./router/password');
 // const RouterUser = require("./router/user")
@@ -126,4 +127,4 @@ app.listen(8080, () => {
 
 
 
-module.exports = app;
+exports.api= functions.https.onRequest (app);

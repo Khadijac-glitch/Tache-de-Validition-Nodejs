@@ -46,20 +46,3 @@ const user = new mongoose.Schema({
   }
 });
 
-// user.post("save", async function (doc) {
-//   // Configurer les options de l'email
-//   const mailOptions = {
-//     from: "passpartoutsn@gmail.com",
-//     to: doc.email,
-//     subject: "Bienvenue chez TERANGA FOOD!",
-//     text: `Bonjour ${doc.firstName},\n\nMerci de vous être inscrit!\n\nCordialement,\nL'équipe teranga`,
-//   };
-
-//   // Envoyer l'email
-//   try {
-//     await transporter.sendMail(mailOptions);
-//     console.log("Email envoyé avec succès à " + doc.email);
-//   } catch (error) {
-//     console.error("Erreur lors de l'envoi de l'email:", error);
-//   }
-// });
