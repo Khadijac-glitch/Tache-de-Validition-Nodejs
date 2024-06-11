@@ -81,7 +81,7 @@ app.use(localisationRoutes);
 
 app.use('/api/passwords', userRoutes);
 app.use('/api/reservation', reservationRoutes);
-app.use("/admin", produitRoutes); //test
+// app.use("/admin", produitRoutes); //test
 
 
 // Redirection de la racine vers /api-docs
