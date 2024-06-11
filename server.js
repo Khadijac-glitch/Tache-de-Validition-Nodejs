@@ -1,11 +1,10 @@
 const express = require('express');
 const app  = express();
-// const connectDB = require('./config/db');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const RouteUsers = require('./router/register');
-const userRoutes = require('./router/password');
+// const userRoutes = require('./router/password');
 // const RouterUser = require("./router/user")
 const emailRoutes = require('./router/email');
 const reservationRoutes = require('./router/reservation');
@@ -115,7 +114,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 
 app.use('/api/register', RouteUsers);
 app.use('/api/auth', require('./router/auth'));
-// app.use('/api/forguotPassword', require('./routes/forguotPassword'));
 app.use('/api/admin/', RouteUsers);
 app.use('/api/email', emailRoutes); 
 
