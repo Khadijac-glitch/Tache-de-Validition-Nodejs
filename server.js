@@ -58,13 +58,13 @@ app.use(bodyParser.json())
 app.use('/api/register', RouteUsers);
 app.use('/api/auth', require('./router/auth'));
 app.use('/api/admin/', RouteUsers);
-app.use('/api/email', emailRoutes); 
+app.use('/api/email/send', emailRoutes); 
 app.use('/api/passwords', userRoutes);
 app.use('/api/reservation', reservationRoutes);
 
 
 
-app.listen(8040, () => {
+app.listen(8080, () => {
     console.log(`Serveur en cours d'exécution sur le port 8080`);
   });
 
