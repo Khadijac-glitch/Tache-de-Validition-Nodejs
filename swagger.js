@@ -10,7 +10,8 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: process.env.SERVER_URL || "http://localhost:8080",
+      url:
+        process.env.SERVER_URL || "https://tache-de-validition-nodejs-p16odb0ao.vercel.app/",
       description: "Serveur de développement",
     },
   ],
