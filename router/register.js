@@ -22,7 +22,7 @@ router.post('/',
   );
 
 
-router.get('/getting', ProdCtrl.getOneUser);
+router.get('/', ProdCtrl.getOneUser);
 router.patch('/update/:id', ProdCtrl.patchUser);
 router.delete('/delete/:id', ProdCtrl.deleteUser);
 // Admin CRUD
