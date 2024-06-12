@@ -3,7 +3,7 @@ const app  = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const functions = require('firebase-function');
+// const functions = require('firebase-function');
 const RouteUsers = require('./router/register');
 const  getOneUser = require('./router/register');
 
@@ -65,6 +65,6 @@ app.listen(8080, () => {
     console.log(`Serveur en cours d'exécution sur le port 8080`);
   });
 
+exports.module = app;
 
-
-exports.api= functions.https.onRequest (app);
+// exports.api= functions.https.onRequest (app);
