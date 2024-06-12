@@ -1,15 +1,15 @@
-const Reservation = require('../models/reservation-table');
+const ReservationTable = require('../models/reservation-table');
 
 exports.createReservation = async (req, res) => {
     try {
         const { tableId } = req.body;
         
-        const existingReservation = await Reservation.findOne({ tableId });
+        const existingReservation = await ReservationTable.findOne({ tableId });
         if (existingReservation) {
             return res.status(400).json({ message: 'Cette table est déjà réservée.' });
         }
 
-        const newReservation = new Reservation({ tableId });
+        const newReservation = new ReservationTable({ tableId });
         const savedReservation = await newReservation.save();
 
         res.status(201).json(savedReservation);
@@ -23,12 +23,12 @@ exports.deleteReservation = async (req, res) => {
     try {
         const { tableId } = req.params;
         
-        const existingReservation = await Reservation.findOne({ tableId });
+        const existingReservation = await ReservationTable.findOne({ tableId });
         if (!existingReservation) {
             return res.status(404).json({ message: 'Cette table n\'a pas été réservée.' });
         }
     
-        await Reservation.deleteOne({ tableId });
+        await ReservationTable.deleteOne({ tableId });
         res.status(200).json({ message: `La réservation de la table ${tableId} a été annulée.` });
     } catch (error) {
         console.error(error);
@@ -38,7 +38,7 @@ exports.deleteReservation = async (req, res) => {
 
 exports.getReservedTables = async (req, res) => {
     try {
-        const reservations = await Reservation.find();
+        const reservations = await ReservationTable.find();
         const reservedTables = reservations.map(reservation => reservation.tableId);
         res.status(200).json(reservedTables);
     } catch (error) {

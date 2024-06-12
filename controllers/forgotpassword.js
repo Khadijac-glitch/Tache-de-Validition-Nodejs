@@ -1,4 +1,4 @@
-const ForgotPassword = require('../models/ForgotPassword');
+const ForgotPassword = require('../models/forgotpassword');
 const Token = require('../models/Token');
 const generateUniqueToken = require('../utils/generateToken');
 const sendResetPasswordEmail = require('../utils/nodemailer');
