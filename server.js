@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const RouteUsers = require('./router/register');
+const  getOneUser = require('./router/register');
+
 // const userRoutes = require('./router/password');
 // const RouterUser = require("./router/user")
 const emailRoutes = require('./router/email');
@@ -34,8 +36,12 @@ app.use(bodyParser.json())
 
 app.use('/api/register', RouteUsers);
 app.use('/api/auth', require('./router/auth'));
+app.use('/api/getting', getOneUser);
+
 app.use('/api/admin/', RouteUsers);
 app.use('/api/email', emailRoutes); 
+
+
 
 
 app.use("/admin", adminRouteProduit);
