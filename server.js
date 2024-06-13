@@ -11,7 +11,7 @@ const emailRoutes = require('./router/email');
 const reservation = require('./router/reservation');
 const adminRouteProduit = require("./router/liste-produit");
 const localisationRoutes = require("./router/localisation-resto");
-const newsletterRoutes = require('./router/newletter');
+const newsletterRoutes = require('./router/newsletter');
 //Forgot password
 const forgotPasswordRoutes = require("./router/forgotpassword");
 
