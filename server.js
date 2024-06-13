@@ -33,15 +33,6 @@ const predictRoutes = require('./router/predict');
 
 
 
-// mongoose
-//   .connect(
-//     "mongodb+srv://madjiguened835:Hr0NWZprD4lcz1BH@get-password.sot5wfh.mongodb.net/?retryWrites=true&w=majority&appName=get-password"
-//   )
-//   .then(() => console.log("Connexion réussie"))
-//   .catch((err) => console.error("Echec de la connexion", err));
-
-
-
 
 app.use(cors());
 app.use(express.json());
@@ -70,8 +61,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     url: 'https://petstore.swagger.io/v2/swagger.json' // Exemple d'URL CDN pour Swagger UI
   }
 }));
-
-
 
 
 
