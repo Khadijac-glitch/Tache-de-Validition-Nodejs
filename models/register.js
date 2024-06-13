@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-// const validator = require("validator");
+const mongoose = require('mongoose');
 
 const user = mongoose.Schema({
   firstName: {
@@ -37,8 +36,4 @@ const user = mongoose.Schema({
     default: 'user'
 },
 });
- 
-
-
-
-module.exports = mongoose.model("Register", user);
+module.exports = mongoose.model('Register', user);
