@@ -30,7 +30,7 @@ const produitRoutes = require("./router/liste-produit");
 
 //Connexion base de donnees
 // mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
-const predictRoutes = require('./router/predict');
+// const predictRoutes = require('./router/predict');
 
 
 
