@@ -52,63 +52,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 
 
 
-// // Redirection de la racine vers /api-docs
-// app.get('/', (req, res) => {
-//   res.redirect('/api-docs');
-// });
-
-// // Routes de l'application
-// app.use('/admin', produitRoutes);
-
-// const PORT = process.env.PORT || 3000;
-// mongoose.connect('mongodb://localhost:27017/yourdbname', { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => app.listen(PORT, () => console.log(`Server is running on port ${PORT}`)))
-//   .catch(err => console.log(err));
-
-
-
-// Route pour avoir la documentation Swagger
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-// const produitRoutes = require("./router/liste-produit");
-
-// //Connexion base de donnees
-// // mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
-// const predictRoutes = require('./router/predict');
-
-
-// mongoose.connect('mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-// // mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',
-// // )
-
-// // mongoose.connect('mongodb+srv://madjiguened835:Hr0NWZprD4lcz1BH@get-password.sot5wfh.mongodb.net/?retryWrites=true&w=majority&appName=get-password',)
-
-// .then(() => {
-//     console.log('connexion success !')
-// })
-// .catch((error) => {
-//     console.log('Erreur de connexion');
-// });
-
-
-
-
-
-//TEST
-
-// mongoose.connect("mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-//   // mongoose.connect('mongodb+srv://elzofils:sadia2020@cluster0.m6lkoeh.mongodb.net/nodeapis?retryWrites=true&w=majority&appName=Cluster0',
-//   // )
-
-//   // mongoose.connect('mongodb+srv://madjiguened835:Hr0NWZprD4lcz1BH@get-password.sot5wfh.mongodb.net/?retryWrites=true&w=majority&appName=get-password',)
-
-//   .then(() => {
-//     console.log("connexion success !");
-//   })
-//   .catch((error) => {
-//     console.log("Erreur de connexion");
-//   });
-
 
 
 
@@ -129,17 +72,6 @@ app.use('/api/reservation', reservationRoutes);
 app.use("/admin", produitRoutes);
 
 
-// Redirection de la racine vers /api-docs
-// app.get("/", (req, res) => {
-//   res.redirect("/api-docs");
-// });
-
-
-
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
 
 // Redirection de la racine vers /api-docs
 app.get('/', (req, res) => {
