@@ -58,7 +58,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 // Route pour la documentation Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   swaggerOptions: {
-    url: 'https://petstore.swagger.io/v2/swagger.json' // Exemple d'URL CDN pour Swagger UI
+    url: 'https://petstore.swagger.io/v2/swagger.json' 
   }
 }));
 

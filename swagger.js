@@ -12,7 +12,7 @@ const swaggerDefinition = {
     {
       url:
         process.env.SERVER_URL || "https://tache-de-validition-nodejs-p16odb0ao.vercel.app/",
-      description: "Serveur de développement",
+        description: "Serveur de développement",
     },
   ],
 };
