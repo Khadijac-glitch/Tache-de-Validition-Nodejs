@@ -1,6 +1,6 @@
-const User = require ('../models/user');
+const User = require ('../models/predict');
 
-exports.createUser = (req, res) => {
+exports.createPredict = (req, res) => {
     console.log(req.body);
     const user = new User(req.body);
     user.save()

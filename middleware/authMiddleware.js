@@ -1,27 +1,33 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/Users');
+const config = require('config');
 
-// pour vérifier les jetons JWT dans les requêtes protégées.
-const authMiddleware = async (req, res, next) => {
-    let token;
-
-    if (
-        req.headers.authorization &&
-        req.headers.authorization.startsWith('Bearer')
-    ) {
-        try {
-            token = req.headers.authorization.split(' ')[1];
-            const decoded = jwt.verify(token, 'your_jwt_secret');
-            req.user = await User.findById(decoded.id).select('-password');
-            next();
-        } catch (error) {
-            res.status(401).json({ error: 'Not authorized, token failed' });
-        }
-    }
-
+const authenticateToken = (req, res, next) => {
+    const token = req.headers['authorization'];
     if (!token) {
-        res.status(401).json({ error: 'Not authorized, no token' });
+        return res.sendStatus(403);
     }
+
+    jwt.verify(token, 'secret_key', (err, user) => {
+        if (err) {
+            return res.sendStatus(403);
+        }
+        req.user = user;
+        next();
+    });
 };
 
-module.exports = authMiddleware;
+const isAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.sendStatus(403);
+    }
+    next();
+};
+module.exports = { authenticateToken, isAdmin };
+
+// const express = require('express');
+// const { authenticateToken, isAdmin } = require('./path-to-middleware');
+// const app = express();
+
+// app.get('/admin', authenticateToken, isAdmin, (req, res) => {
+//     res.send('Welcome Admin!');
+// });
