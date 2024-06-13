@@ -69,3 +69,4 @@ router.delete("/:tableId", reservationController.deleteReservation);
 router.get("/reserved-tables", reservationController.getReservedTables);
 
 module.exports = router;
+
