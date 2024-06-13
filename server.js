@@ -5,13 +5,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const RouteUsers = require('./router/register');
 const  getOneUser = require('./router/register');
-
-// const userRoutes = require('./router/password');
-// const RouterUser = require("./router/user")
 const emailRoutes = require('./router/email');
-// const reservationRoutes = require('./router/reservation');
 const adminRouteProduit = require("./router/liste-produit");
 const localisationRoutes = require("./router/localisation-resto");
+const newsletterRoutes = require('./router/newletters');
 
 //Connexion base de donnees
 // mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
@@ -35,11 +32,12 @@ app.use(express.json());
 app.use(bodyParser.json())
 
 app.use('/api/register', RouteUsers);
-app.use('/api/auth', require('./router/auth'));
+app.use('/lo', require('./router/auth'));
 app.use('/api/getting', getOneUser);
 
 app.use('/api/admin/', RouteUsers);
-app.use('/api/email', emailRoutes); 
+app.use('/api/email', emailRoutes);
+app.use('/subscribe', newsletterRoutes); 
 
 
 
