@@ -38,8 +38,8 @@ exports.createUser = async (req, res) => {
   
       await user.save(); 
   
-      return res.status(200).json({ msg: 'Inscription réussie' });
-  
+      return res.status(201).json({ firstName: user.firstName, lastName: user.lastName ,email:user.email, _id:user._id });
+
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Erreur du serveur');
@@ -131,3 +131,9 @@ exports.deleteAdmin = (req, res) => {
       return res.status(400).json({ error });
     });
 };
+
+
+
+// then((utilisateur) => {
+//   return res.status(201).json({utilisateur})
+//  })
