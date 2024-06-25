@@ -7,11 +7,11 @@ router.post('/send', (req, res) => {
 
   sendEmail(to, subject, text)
     .then(() => {
-      res.status(200).json({ message: 'Email envoyer avec success' });
+      res.status(201).json({ message: 'Email envoyer avec success' });
     })
     .catch((err) => {
       console.error(err.message);
-      res.status(500).json({ message: ' Error email' });
+      res.status(403).json({ message: ' Error email' });
     });
 });
 

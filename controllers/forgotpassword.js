@@ -7,16 +7,16 @@ exports.createUser = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
-      return res.status(400).send('L\'email est requis');
+      return res.status(204).send('L\'email est requis');
     }
     const user = new ForgotPassword({ email });
     await user.save();
     res.status(201).send('Utilisateur créé avec succès');
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).send('L\'email existe déjà');
+      return res.status(203).send('L\'email existe déjà');
     }
-    res.status(500).send('Erreur lors de la création de l\'utilisateur');
+    res.status(403).send('Erreur lors de la création de l\'utilisateur');
   }
 };
 
@@ -30,7 +30,7 @@ exports.requestReset = async (req, res) => {
     const token = generateUniqueToken();
     await Token.create({ token, email, expiration: Date.now() + 3600000 }); // 1 heure d'expiration
     sendResetPasswordEmail(email, token);
-    res.status(200).send('E-mail de réinitialisation de mot de passe envoyé avec succès');
+    res.status(201).send('E-mail de réinitialisation de mot de passe envoyé avec succès');
   } catch (error) {
     console.error(error);
     res.status(500).send('Erreur interne du serveur');
@@ -43,7 +43,7 @@ exports.resetPassword = async (req, res) => {
     const { password } = req.body;
     const tokenDoc = await Token.findOne({ token, expiration: { $gt: Date.now() } });
     if (!tokenDoc) {
-      return res.status(400).send('Token invalide ou expiré');
+      return res.status(102).send('Token invalide ou expiré');
     }
     const user = await ForgotPassword.findOne({ email: tokenDoc.email });
     if (!user) {
@@ -52,7 +52,7 @@ exports.resetPassword = async (req, res) => {
     user.password = password; 
     await user.save();
     await Token.deleteOne({ token });
-    res.status(200).send('Mot de passe réinitialisé avec succès');
+    res.status(201).send('Mot de passe réinitialisé avec succès');
   } catch (error) {
     console.error(error);
     res.status(500).send('Erreur interne du serveur');
@@ -64,6 +64,6 @@ exports.getAllEmails = async (req, res) => {
     const users = await ForgotPassword.find();
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).send('Erreur lors de la récupération des utilisateurs');
+    res.status(403).send('Erreur lors de la récupération des utilisateurs');
   }
 };

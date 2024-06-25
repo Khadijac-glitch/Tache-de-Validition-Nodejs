@@ -6,9 +6,8 @@ exports.subscribe = async (req, res) => {
     try {
         const subscriber = new Subscriber({ email });
         await subscriber.save();
-        res.send('Merci de vous être abonné à notre newsletter !');
+        res.status(201).send("Merci de vous être abonné à notre newsletter !");
     } catch (error) {
         res.status(500).send('Erreur lors de l\'enregistrement de l\'abonné');
     }
 };
- 

@@ -15,7 +15,7 @@ exports.sendEmail = (req, res) => {
   const send = new Send(req.body);
   send()
     .then(() => {
-      res.status(200).json({ message: 'Email envoyé avec succès' });
+      res.status(201).json({ message: 'Email envoyé avec succès' });
     })
     .catch((err) => {
       console.error(err.message);
@@ -42,10 +42,10 @@ exports.registerUser = async (req, res) => {
     await transporter.sendMail(mailOptions);
     console.log("Email envoyé avec succès à " + savedUser.email);
 
-    res.status(200).json({ message: 'Utilisateur enregistré avec succès et email envoyé' });
+    res.status(201).json({ message: 'Utilisateur enregistré avec succès et email envoyé' });
   } catch (error) {
     console.error("Erreur lors de l'enregistrement de l'utilisateur ou de l'envoi de l'email:", error);
-    res.status(500).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur ou de l\'envoi de l\'email' });
+    res.status(403).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur ou de l\'envoi de l\'email' });
   }
 };
 
