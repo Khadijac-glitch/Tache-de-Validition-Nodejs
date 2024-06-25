@@ -144,6 +144,7 @@ const transporter = nodemailer.createTransport({
 
 // Contrôleur pour l'inscription d'un nouvel utilisateur
 exports.createUser = async (req, res) => {
+<<<<<<< HEAD
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -157,6 +158,44 @@ exports.createUser = async (req, res) => {
 
     if (user) {
       return res.status(400).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
+=======
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  
+    const { firstName, lastName,email,number, password,confirmPassword, role } = req.body;
+  
+    try {
+      let user = await User.findOne({ email });
+  
+      if (user) {
+        return res.status(400).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
+      }
+  
+      // Crypterle mdp
+      const salt = await bcrypt.genSalt(10);
+      const crytPassword = await bcrypt.hash(password, salt);
+      console.log(crytPassword);
+  
+      user = new User({
+        firstName,
+        lastName,
+        email,
+        number,
+        password: crytPassword,
+        confirmPassword,
+        role
+      });
+  
+      await user.save(); 
+  
+      return res.status(201).json({ firstName: user.firstName, lastName: user.lastName ,email:user.email, _id:user._id });
+
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Erreur du serveur');
+>>>>>>> 04626f718f56496c80ccdbc9a894c1c4607fc034
     }
 
     // Crypter le mot de passe
@@ -303,3 +342,9 @@ exports.deleteAdmin = (req, res) => {
       return res.status(400).json({ error });
     });
 };
+
+
+
+// then((utilisateur) => {
+//   return res.status(201).json({utilisateur})
+//  })
