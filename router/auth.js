@@ -87,10 +87,13 @@ router.post(
         return res
           .status(400)
           .json({ errors: [{ msg: "Mot de passe invalide" }] });
+
       }
 
-      console.log("Connexion réussie");
-      res.send("Connexion réussie");
+      // console.log("Connexion réussie");
+      // res.send("Connexion réussie");
+      return res.status(201).json({ firstName: user.firstName, lastName: user.lastName ,email:user.email, _id:user._id });
+
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Erreur du serveur");

@@ -10,7 +10,7 @@ const emailRoutes = require('./router/email');
 const reservation = require('./router/reservation');
 const adminRouteProduit = require("./router/liste-produit");
 const localisationRoutes = require("./router/localisation-resto");
-
+const newsletterRoutes = require('./router/newletters')
 //Forgot password
 const forgotPasswordRoutes = require("./router/forgotpassword");
 
@@ -29,8 +29,6 @@ const produitRoutes = require("./router/liste-produit");
 
 //Connexion base de donnees
 // mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
-const predictRoutes = require('./router/predict');
-
 
 
 
@@ -68,7 +66,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 app.use('/api/register', RouteUsers);
 app.use('/api/auth', require('./router/auth'));
 app.use('/api/admin/', RouteUsers);
-app.use('/api/email', emailRoutes); 
+app.use('/api/email', emailRoutes);
+app.use('/subscribe', newsletterRoutes); 
+
+
 
 
 app.use("/admin", adminRouteProduit);
