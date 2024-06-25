@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-const mongoose = require("mongoose");
-// const validator = require("validator");
-=======
 const mongoose = require('mongoose');
->>>>>>> 04626f718f56496c80ccdbc9a894c1c4607fc034
 
 const user = mongoose.Schema({
   firstName: {
@@ -41,12 +36,4 @@ const user = mongoose.Schema({
     default: 'user'
 },
 });
-<<<<<<< HEAD
- 
-
-
-
-module.exports = mongoose.model("Register", user);
-=======
 module.exports = mongoose.model('Register', user);
->>>>>>> 04626f718f56496c80ccdbc9a894c1c4607fc034
