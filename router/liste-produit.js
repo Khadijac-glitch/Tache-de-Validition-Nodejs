@@ -44,7 +44,7 @@ router.post("/liste-produits", async (req, res, next) => {
  *     summary: Voir la liste de tous les produits
  *     description: Obtenir une liste de tous les produits
  *     responses:
- *       200:
+ *       201:
  *         description: Succès
  *       500:
  *         description: Erreur du serveur
@@ -113,7 +113,7 @@ router.get("/liste-produits/:id", async (req, res, next) => {
  *               price:
  *                 type: number
  *     responses:
- *       200:
+ *       201:
  *         description: Succès
  *       404:
  *         description: Produit non trouvé
@@ -146,7 +146,7 @@ router.patch("/liste-produits/:id", async (req, res, next) => {
  *         schema:
  *           type: string
  *     responses:
- *       200:
+ *       201:
  *         description: Succès
  *       404:
  *         description: Produit non trouvé
