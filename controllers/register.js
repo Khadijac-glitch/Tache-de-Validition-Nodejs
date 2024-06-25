@@ -146,7 +146,7 @@ const transporter = nodemailer.createTransport({
 exports.createUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(403).json({ errors: errors.array() });
     }
   
     const { firstName, lastName,email,number, password,confirmPassword, role } = req.body;
@@ -155,7 +155,7 @@ exports.createUser = async (req, res) => {
       let user = await User.findOne({ email });
   
       if (user) {
-        return res.status(400).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
+        return res.status(301).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
       }
   
       // Crypterle mdp
@@ -179,7 +179,7 @@ exports.createUser = async (req, res) => {
 
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Erreur du serveur');
+      res.status(403).send('Erreur du serveur');
     }
 
     // Crypter le mot de passe
@@ -213,7 +213,7 @@ exports.createUser = async (req, res) => {
     sendLoginEmail(user.email, loginLink);
 
     // Répondre avec un message de succès
-    return res.status(200).json({ msg: 'Inscription réussie. Un email de confirmation a été envoyé à votre adresse.' });
+    return res.status(201).json({ msg: 'Inscription réussie. Un email de confirmation a été envoyé à votre adresse.' });
 
   // } catch (err) {
   //   console.error(err.message);
@@ -246,11 +246,11 @@ exports.getOneUser = (req, res) => {
   console.log(user);
   User.find({ user: user })
     .then((utilisateur) => {
-      return res.status(200).json({ utilisateur });
+      return res.status(201).json({ utilisateur });
     })
     .catch((error) => {
       console.log(error);
-      return res.status(400).json({ error });
+      return res.status(403).json({ error });
     });
 };
 
@@ -262,11 +262,11 @@ exports.patchUser = (req, res) => {
     runValidators: true,
   })
     .then((utilisateur) => {
-      return res.status(200).json({ utilisateur });
+      return res.status(201).json({ utilisateur });
     })
     .catch((error) => {
       console.log(error);
-      return res.status(400).json({ error });
+      return res.status(403).json({ error });
     });
 };
 //   ADMIN
@@ -284,7 +284,7 @@ exports.createAdminUser = (req, res) => {
         return res.status(201).json({ utilisateur, token });
       })
       .catch((error) => {
-        return res.status(400).json({ error });
+        return res.status(403).json({ error });
       });
   };
 exports.patchAdmin = (req, res) => {
@@ -295,11 +295,11 @@ exports.patchAdmin = (req, res) => {
     runValidators: true,
   })
     .then((utilisateur) => {
-      return res.status(200).json({ utilisateur });
+      return res.status(201).json({ utilisateur });
     })
     .catch((error) => {
       console.log(error);
-      return res.status(400).json({ error });
+      return res.status(403).json({ error });
     });
 };
 exports.deleteUser = (req, res) => {
@@ -307,11 +307,11 @@ exports.deleteUser = (req, res) => {
   console.log(user);
   User.findByIdAndDelete(user)
     .then((utilisateur) => {
-      return res.status(200).json({ utilisateur });
+      return res.status(201).json({ utilisateur });
     })
     .catch((error) => {
       console.log(error);
-      return res.status(400).json({ error });
+      return res.status(403).json({ error });
     });
 };
 exports.deleteAdmin = (req, res) => {
@@ -319,10 +319,10 @@ exports.deleteAdmin = (req, res) => {
   console.log(user);
   User.findByIdAndDelete(user)
     .then((utilisateur) => {
-      return res.status(200).json({ utilisateur });
+      return res.status(201).json({ utilisateur });
     })
     .catch((error) => {
       console.log(error);
-      return res.status(400).json({ error });
+      return res.status(403).json({ error });
     });
 };

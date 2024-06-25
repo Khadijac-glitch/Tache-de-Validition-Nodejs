@@ -4,7 +4,7 @@ const config = require('config');
 module.exports = function(req, res, next) {
     const token = req.header('auth-token');
     if (!token) {
-      return res.status(401).json({ msg: 'autorisation refusée' });
+      return res.status(403).json({ msg: 'autorisation refusée' });
     }
   
     try {
@@ -12,7 +12,7 @@ module.exports = function(req, res, next) {
       req.user = decode.user;
       next();
     } catch (err) {
-      res.status(401).json({ msg: 'Token invalide' });
+      res.status(403).json({ msg: 'Token invalide' });
     }
   };
 

@@ -33,7 +33,7 @@ router.post("/liste-produits", async (req, res, next) => {
     const saveProduit = await produit.save();
     res.status(201).send(saveProduit);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 
@@ -54,7 +54,7 @@ router.get("/liste-produits", async (req, res, next) => {
     const produits = await Produit.find({});
     res.send(produits);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 
@@ -85,7 +85,7 @@ router.get("/liste-produits/:id", async (req, res, next) => {
     if (!produits) return res.status(404).send("Produit non trouvé");
     res.send(produits);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 
@@ -129,7 +129,7 @@ router.patch("/liste-produits/:id", async (req, res, next) => {
     if (!produits) return res.status(404).send("Produit non trouvé");
     res.send(produits);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 
@@ -160,7 +160,7 @@ router.delete("/liste-produits/:id", async (req, res, next) => {
     if (!produits) return res.status(404).send("Produit non trouvé");
     res.send(produits);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 

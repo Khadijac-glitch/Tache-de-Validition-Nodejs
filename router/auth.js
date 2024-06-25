@@ -33,13 +33,13 @@ const User = require("../models/register");
  *               format: password
  *               example: votremotdepasse
  *     responses:
- *       200:
+ *       201:
  *         description: Connexion réussie
  *         schema:
  *           type: string
  *           example: Connexion réussie
- *       400:
- *         description: Erreur de validation
+ *       401:
+ *         description: utilisateur non authentifié 
  *         schema:
  *           type: object
  *           properties:
@@ -51,7 +51,7 @@ const User = require("../models/register");
  *                   msg:
  *                     type: string
  *                     example: Email invalide
- *       500:
+ *       404:
  *         description: Erreur du serveur
  *         schema:
  *           type: string
@@ -68,7 +68,7 @@ router.post(
   (exports.userLogin = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(404).json({ errors: errors.array() });
     }
 
     const { email, password } = req.body;
@@ -77,7 +77,7 @@ router.post(
       let user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(400).json({ errors: [{ msg: "Email invalide" }] });
+        return res.status(403).json({ errors: [{ msg: "Email invalide" }] });
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -85,7 +85,7 @@ router.post(
       console.log(user.password);
       if (!isPasswordValid) {
         return res
-          .status(400)
+          .status(403)
           .json({ errors: [{ msg: "Mot de passe invalide" }] });
 
       }
