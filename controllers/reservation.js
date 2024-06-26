@@ -14,8 +14,35 @@ exports.createReservation = async (req, res) => {
 exports.getAllReservations = async (req, res) => {
     try {
         const reservations = await Reservation.find();
-        res.status(201).json(reservations);
+        res.status(200).json(reservations);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
+const reservations = [
+    { date: '2024-06-26', time: '14:00:00' },
+    { date: '2024-06-26', time: '15:30:00' },
+  ];
+  
+  const getCurrentTime = () => {
+    const now = new Date();
+    return now.toTimeString().split(' ')[0];
+  };
+  
+  exports.ReservedHours = async (req, res) => {
+    const { date } = req.params;
+    const currentTime = getCurrentTime();
+  
+    const heures_indisponibles = reservations
+      .filter(reservation => reservation.date === date)
+      .map(reservation => reservation.time);
+  
+    const heures_disponibles = Array.from({ length: 24 * 2 }, (_, i) => {
+      const hour = Math.floor(i / 2);
+      const minute = i % 2 === 0 ? '00' : '30';
+      return `${hour < 10 ? '0' : ''}${hour}:${minute}:00`;
+    }).filter(time => time > currentTime);
+  
+    res.json({ heures_disponibles, heures_indisponibles });
+  };
+  

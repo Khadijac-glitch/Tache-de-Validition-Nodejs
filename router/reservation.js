@@ -42,5 +42,6 @@ router.post("/", reservationController.createReservation);
  *         description: Liste de toutes les réservations
  */
 router.get("/getallreservation", reservationController.getAllReservations);
+router.get('/hours', reservationController.ReservedHours);
 
 module.exports = router;

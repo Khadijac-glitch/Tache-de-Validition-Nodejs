@@ -56,6 +56,7 @@ const router = express.Router();
  *       200:
  *         description: Demande de réinitialisation envoyée avec succès
  */
+router.post('/create', forgotPasswordController.createUser);
 router.post('/request-reset', forgotPasswordController.requestReset);
 
 /**
