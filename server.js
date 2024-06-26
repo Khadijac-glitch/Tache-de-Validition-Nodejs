@@ -16,7 +16,7 @@ const forgotPasswordRoutes = require("./router/forgotpassword");
 
 //Reservation table
 const reservationRoutes = require("./router/reservation-table");
-
+const employeeRoutes = require('./router/listedesEmployes');
 
 
 // const reservationRoutes = require('./router/reservation');
@@ -68,6 +68,7 @@ app.use('/api/auth', require('./router/auth'));
 app.use('/api/admin/', RouteUsers);
 app.use('/api/email', emailRoutes);
 app.use('/subscribe', newsletterRoutes); 
+app.use('/api/employes',employeeRoutes);
 
 
 
