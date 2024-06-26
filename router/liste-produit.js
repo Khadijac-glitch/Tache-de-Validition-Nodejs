@@ -18,6 +18,8 @@ const upload = require("../multer.js"); // Chemin vers la configuration multer
  *           schema:
  *             type: object
  *             properties:
+ *               image: 
+ *                 type: string
  *               name:
  *                 type: string
  *               description:
