@@ -2,6 +2,7 @@ const express = require('express');
 const app  = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const fs = require("fs");
 const cors = require('cors');
 const RouteUsers = require('./router/register');
 // const userRoutes = require('./router/password');
@@ -22,7 +23,7 @@ const reservationRoutes = require("./router/reservation-table");
 // const reservationRoutes = require('./router/reservation');
 
 
-        //TEST
+        //Swagger
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const produitRoutes = require("./router/liste-produit");
@@ -31,10 +32,19 @@ const produitRoutes = require("./router/liste-produit");
 // mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
 
 
+//Multer
+const dir = "./uploads";
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
+
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+
+//multer
+app.use("/uploads", express.static("uploads")); 
 
 
         //Test

@@ -1,6 +1,9 @@
 const express = require("express");
 const Produit = require("../models/product");
 const router = express.Router();
+const upload = require("../multer.js"); // Chemin vers la configuration multer
+
+
 
 /**
  * @swagger
@@ -27,15 +30,24 @@ const router = express.Router();
  *       500:
  *         description: Erreur du serveur
  */
-router.post("/liste-produits", async (req, res, next) => {
-  try {
-    const produit = new Produit(req.body);
-    const saveProduit = await produit.save();
-    res.status(201).send(saveProduit);
-  } catch (e) {
-    res.status(500).send(e);
+router.post(
+  "/liste-produits",
+  upload.single("image"),
+  async (req, res, next) => {
+    try {
+      const produit = new Produit({
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        image: req.file ? req.file.path : null,
+      });
+      const saveProduit = await produit.save();
+      res.status(201).send(saveProduit);
+    } catch (e) {
+      res.status(500).send(e);
+    }
   }
-});
+);
 
 /**
  * @swagger
@@ -89,6 +101,10 @@ router.get("/liste-produits/:id", async (req, res, next) => {
   }
 });
 
+
+
+// Route pour mettre à jour un produit avec une nouvelle image
+
 /**
  * @swagger
  * /admin/liste-produits/{id}:
@@ -120,18 +136,29 @@ router.get("/liste-produits/:id", async (req, res, next) => {
  *       500:
  *         description: Erreur du serveur
  */
-router.patch("/liste-produits/:id", async (req, res, next) => {
-  const produitId = req.params.id;
-  try {
-    const produits = await Produit.findByIdAndUpdate(produitId, req.body, {
-      new: true,
-    });
-    if (!produits) return res.status(404).send("Produit non trouvé");
-    res.send(produits);
-  } catch (e) {
-    res.status(500).send(e);
+router.patch("/liste-produits/:id",upload.single("image"),
+  async (req, res, next) => {
+    const produitId = req.params.id;
+    const updates = {
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+    };
+    if (req.file) {
+      updates.image = req.file.path; // Met à jour le chemin de l'image
+    }
+    try {
+      const produits = await Produit.findByIdAndUpdate(produitId, updates, {
+        new: true,
+      });
+      if (!produits) return res.status(404).send("Produit non trouvé");
+      res.send(produits);
+    } catch (e) {
+      res.status(500).send(e);
+    }
   }
-});
+);
+
 
 /**
  * @swagger
