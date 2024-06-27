@@ -1,69 +1,105 @@
-const ForgotPassword = require('../models/forgotpassword');
-const Token = require('../models/Token');
-const generateUniqueToken = require('../utils/generateToken');
-const sendResetPasswordEmail = require('../utils/nodemailer');
+const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+const User = require('../models/register');
+const nodemailer = require('nodemailer');
 
-exports.createUser = async (req, res) => {
-  try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(204).send('L\'email est requis');
+// Configurer le transporteur de mail
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'passpartoutsn@gmail.com',
+    pass: 'afaq ywrb asby baky',
+  },
+});
+
+// Fonction pour envoyer l'email de réinitialisation
+function sendResetEmail(userEmail, token) {
+  const resetLink = `http://localhost:3000/forgotpassword?token=${token}`;
+  const mailOptions = {
+    from: 'passpartoutsn@gmail.com',
+    to: userEmail,
+    subject: 'Réinitialisation de votre mot de passe',
+    html: `Vous pouvez réinitialiser votre mot de passe en suivant : <a href="${resetLink}">${resetLink}</a>`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email de réinitialisation envoyé: ' + info.response);
     }
-    const user = new ForgotPassword({ email });
-    await user.save();
-    res.status(201).send('Utilisateur créé avec succès');
-  } catch (error) {
-    if (error.code === 11000) {
-      return res.status(203).send('L\'email existe déjà');
-    }
-    res.status(403).send('Erreur lors de la création de l\'utilisateur');
+  });
+}
+
+// Contrôleur pour la demande de réinitialisation de mot de passe
+const forgotPassword = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-};
 
-exports.requestReset = async (req, res) => {
+  const { email } = req.body;
+
   try {
-    const { email } = req.body;
-    const user = await ForgotPassword.findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).send('Utilisateur non trouvé');
+      return res.status(404).json({ errors: [{ msg: 'Utilisateur non trouvé' }] });
     }
-    const token = generateUniqueToken();
-    await Token.create({ token, email, expiration: Date.now() + 3600000 }); // 1 heure d'expiration
-    sendResetPasswordEmail(email, token);
-    res.status(201).send('E-mail de réinitialisation de mot de passe envoyé avec succès');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Erreur interne du serveur');
+
+    const token = jwt.sign({ userId: user._id, email: user.email }, 'your_jwt_secret', { expiresIn: '1h' });
+    sendResetEmail(user.email, token);
+
+    return res.status(200).json({ msg: 'Un email de réinitialisation a été envoyé à votre adresse.' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Erreur du serveur');
   }
 };
 
-exports.resetPassword = async (req, res) => {
+// Contrôleur pour la réinitialisation du mot de passe
+const resetPassword = async (req, res) => {
+  // Valider les erreurs de requête
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { password, confirmPassword } = req.body;
+  const { token } = req.params;
+
+  // Vérifier si les mots de passe correspondent
+  if (password !== confirmPassword) {
+    return res.status(400).json({ errors: [{ msg: 'Les mots de passe ne correspondent pas' }] });
+  }
+
   try {
-    const { token } = req.params;
-    const { password } = req.body;
-    const tokenDoc = await Token.findOne({ token, expiration: { $gt: Date.now() } });
-    if (!tokenDoc) {
-      return res.status(102).send('Token invalide ou expiré');
-    }
-    const user = await ForgotPassword.findOne({ email: tokenDoc.email });
+    // Décoder le jeton JWT
+    const decoded = jwt.verify(token, 'your_jwt_secret');
+
+    // Trouver l'utilisateur par ID
+    let user = await User.findById(decoded.userId);
     if (!user) {
-      return res.status(404).send('Utilisateur non trouvé');
+      return res.status(404).json({ errors: [{ msg: 'Utilisateur non trouvé' }] });
     }
-    user.password = password; 
+
+    // Hacher le nouveau mot de passe
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    // Sauvegarder l'utilisateur avec le nouveau mot de passe
     await user.save();
-    await Token.deleteOne({ token });
-    res.status(201).send('Mot de passe réinitialisé avec succès');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Erreur interne du serveur');
+
+    return res.status(200).json({ msg: 'Mot de passe réinitialisé avec succès' });
+  } catch (err) {
+    console.error(err.message);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(400).json({ errors: [{ msg: 'Jeton JWT invalide' }] });
+    }
+    res.status(500).send('Erreur du serveur');
   }
 };
-
-exports.getAllEmails = async (req, res) => {
-  try {
-    const users = await ForgotPassword.find();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(403).send('Erreur lors de la récupération des utilisateurs');
-  }
+module.exports = {
+  forgotPassword,
+  resetPassword
 };

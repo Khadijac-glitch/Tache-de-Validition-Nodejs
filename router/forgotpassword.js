@@ -1,7 +1,19 @@
 const express = require('express');
-const forgotPasswordController = require('../controllers/forgotpassword');
-
+const { forgotPassword, resetPassword } = require('../controllers/forgotpassword');
+const { check } = require('express-validator');
 const router = express.Router();
+
+router.post('/forgot-password', [
+  check('email', 'Veuillez fournir un email valide').isEmail()
+], forgotPassword);
+
+router.post('/reset-password/:token', [
+  check('password', 'Le mot de passe doit contenir au moins 6 caractères').isLength({ min: 6 }),
+  check('confirmPassword', 'Les mots de passe doivent correspondre').custom((value, { req }) => value === req.body.password)
+], resetPassword);
+
+module.exports = router;
+
 
 // /**
 //  * @swagger
@@ -56,9 +68,9 @@ const router = express.Router();
  *       200:
  *         description: Demande de réinitialisation envoyée avec succès
  */
-router.post('/create', forgotPasswordController.createUser);
-router.post('/request-reset', forgotPasswordController.requestReset);
-
+// router.post('/create', forgotPasswordController.createUser);
+// router.post('/request-reset', forgotPasswordController.requestReset);
+// 
 /**
  * @swagger
  * /api/reset-password/{token}:
@@ -88,7 +100,7 @@ router.post('/request-reset', forgotPasswordController.requestReset);
  *       200:
  *         description: Mot de passe réinitialisé avec succès
  */
-router.post('/reset-password/:token', forgotPasswordController.resetPassword);
+// router.post('/reset-password/:token', forgotPasswordController.resetPassword);
 
 /**
  * @swagger
@@ -102,6 +114,8 @@ router.post('/reset-password/:token', forgotPasswordController.resetPassword);
  *       200:
  *         description: Liste de tous les emails
  */
-router.get('/getallmail', forgotPasswordController.getAllEmails);
+// router.get('/getallmail', forgotPasswordController.getAllEmails);
 
-module.exports = router;
+
+
+

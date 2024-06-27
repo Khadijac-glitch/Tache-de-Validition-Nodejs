@@ -90,6 +90,9 @@ app.use("/api", forgotPasswordRoutes);
 //Reservation table
 app.use("/api/reservation-table", reservationRoutes);
 
+app.use('/api', forgotPasswordRoutes); // Assurez-vous que le préfixe '/api' correspond à votre configuration
+
+
 
 
 // Redirection de la racine vers /api-docs
