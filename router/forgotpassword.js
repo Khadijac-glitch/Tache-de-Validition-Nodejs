@@ -1,6 +1,7 @@
 const express = require('express');
 const { forgotPassword, resetPassword } = require('../controllers/forgotpassword');
 const { check } = require('express-validator');
+
 const router = express.Router();
 
 router.post('/forgot-password', [
@@ -11,7 +12,6 @@ router.post('/reset-password/:token', [
   check('password', 'Le mot de passe doit contenir au moins 6 caractères').isLength({ min: 6 }),
   check('confirmPassword', 'Les mots de passe doivent correspondre').custom((value, { req }) => value === req.body.password)
 ], resetPassword);
-
 module.exports = router;
 
 

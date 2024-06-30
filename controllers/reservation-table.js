@@ -1,5 +1,6 @@
 const ReservationTable = require('../models/reservation-table');
 
+
 exports.createReservation = async (req, res) => {
     try {
         const { tableId } = req.body;
@@ -38,11 +39,11 @@ exports.deleteReservation = async (req, res) => {
 
 exports.getReservedTables = async (req, res) => {
     try {
-        const reservations = await ReservationTable.find();
-        const reservedTables = reservations.map(reservation => reservation.tableId);
-        res.status(201).json(reservedTables);
+      const reservations = await ReservationTable.find({}, 'roomId tableId');
+      res.status(200).json(reservations);
     } catch (error) {
-        console.error(error);
-        res.status(408).json({ message: 'Une erreur est survenue lors de la récupération des tables réservées.' });
+      console.error(error);
+      res.status(500).json({ message: 'Une erreur est survenue lors de la récupération des tables réservées.' });
     }
-};
+  };
+  

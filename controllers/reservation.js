@@ -46,3 +46,22 @@ const reservations = [
     res.json({ heures_disponibles, heures_indisponibles });
   };
   
+
+
+
+exports.cancelReservation = async (req, res) => {
+  try {
+    const { invites, date, hour } = req.body;
+    const reservationDate = new Date(date);
+
+    const deletedReservation = await Reservation.findOneAndDelete({ invites, date: reservationDate, hour });
+
+    if (!deletedReservation) {
+      return res.status(404).json({ message: 'Réservation non trouvée' });
+    }
+
+    res.status(200).json({ message: 'Réservation annulée avec succès' });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
