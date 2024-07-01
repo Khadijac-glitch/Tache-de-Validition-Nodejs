@@ -1,131 +1,3 @@
-// // const jwt = require("jsonwebtoken");
-// // const { validationResult } = require('express-validator');
-// // const bcrypt = require('bcryptjs'); 
-// // const User = require("../models/register");
-
-
-// // // Controller pour l'inscription d'un nouvel utilisateur
-
-// // exports.createUser = async (req, res) => {
-// //     const errors = validationResult(req);
-// //     if (!errors.isEmpty()) {
-// //       return res.status(400).json({ errors: errors.array() });
-// //     }
-  
-// //     const { firstName, lastName,email,number, password,confirmPassword, role } = req.body;
-  
-// //     try {
-// //       let user = await User.findOne({ email });
-  
-// //       if (user) {
-// //         return res.status(400).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
-// //       }
-  
-// //       // Crypterle mdp
-// //       const salt = await bcrypt.genSalt(10);
-// //       const crytPassword = await bcrypt.hash(password, salt);
-// //       console.log(crytPassword);
-  
-// //       user = new User({
-// //         firstName,
-// //         lastName,
-// //         email,
-// //         number,
-// //         password: crytPassword,
-// //         confirmPassword,
-// //         role
-// //       });
-  
-// //       await user.save(); 
-  
-// //       return res.status(200).json({ msg: 'Inscription réussie' });
-  
-// //     } catch (err) {
-// //       console.error(err.message);
-// //       res.status(500).send('Erreur du serveur');
-// //     }
-// //   };
-
-
-// const jwt = require("jsonwebtoken");
-// const { validationResult } = require('express-validator');
-// const bcrypt = require('bcryptjs'); 
-// const User = require("../models/register");
-// const nodemailer = require('nodemailer');
-
-// // Configurez Nodemailer avec vos paramètres
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: "passpartoutsn@gmail.com",
-//     pass: "afaq ywrb asby baky",
-//   }
-// });
-
-// // Contrôleur pour l'inscription d'un nouvel utilisateur
-// exports.createUser = async (req, res) => {
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({ errors: errors.array() });
-//   }
-
-//   const { firstName, lastName, email, number, password, role } = req.body;
-
-//   try {
-//     // Vérifier si l'utilisateur existe déjà
-//     let user = await User.findOne({ email });
-
-//     if (user) {
-//       return res.status(400).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
-//     }
-
-//     // Crypter le mot de passe
-//     const salt = await bcrypt.genSalt(10);
-//     const cryptPassword = await bcrypt.hash(password, salt);
-
-//     // Créer un nouvel utilisateur
-//     user = new User({
-//       firstName,
-//       lastName,
-//       email,
-//       number,
-//       password: cryptPassword,
-//       role
-//     });
-
-//     // Enregistrer l'utilisateur dans la base de données
-//     await user.save();
-
-//     // Envoi de l'email de confirmation
-//     sendConfirmationEmail(user.email);
-
-//     // Répondre avec un message de succès
-//     return res.status(200).json({ msg: 'Inscription réussie. Un email de confirmation a été envoyé à votre adresse.' });
-
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(500).send('Erreur du serveur');
-//   }
-// };
-
-// // Fonction pour envoyer l'email de confirmation
-// function sendConfirmationEmail(userEmail) {
-//   const mailOptions = {
-//     from: 'passpartoutsn@gmail.com',
-//     to: userEmail,
-//     subject: 'Confirmation d\'inscription',
-//     text: 'Votre inscription a été confirmée. Vous pouvez maintenant vous connecter.'
-//   };
-
-//   transporter.sendMail(mailOptions, function(error, info){
-//     if (error) {
-//       console.log(error);
-//     } else {
-//       console.log('Email de confirmation envoyé: ' + info.response);
-//     }
-//   });
-// }
-
 
 const jwt = require("jsonwebtoken");
 const { validationResult } = require('express-validator');
@@ -142,103 +14,119 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Fonction pour envoyer l'email de confirmation
+const sendConfirmationEmail = (email, confirmationLink) => {
+  const mailOptions = {
+    from: 'passpartoutsn@gmail.com',
+    to: email,
+    subject: 'Confirmation d\'inscription',
+    html: `
+      <p>Merci de vous être inscrit ! Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :</p>
+      <a href="${confirmationLink}">Confirmer mon adresse email</a>
+    `
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.error('Erreur lors de l\'envoi de l\'email de confirmation:', error);
+    } else {
+      console.log('Email de confirmation envoyé: ' + info.response);
+    }
+  });
+};
+
 // Contrôleur pour l'inscription d'un nouvel utilisateur
 exports.createUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(403).json({ errors: errors.array() });
     }
   
-    const { firstName, lastName,email,number, password,confirmPassword, role } = req.body;
+    const { firstName, lastName, email, number, password, confirmPassword, role } = req.body;
   
     try {
       let user = await User.findOne({ email });
   
       if (user) {
-        return res.status(203).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
+        return res.status(301).json({ errors: [{ msg: 'Utilisateur existe déjà' }] });
       }
   
-      // Crypterle mdp
+      // Crypter le mot de passe
       const salt = await bcrypt.genSalt(10);
-      const crytPassword = await bcrypt.hash(password, salt);
-      console.log(crytPassword);
+      const hashedPassword = await bcrypt.hash(password, salt);
   
+      // Créer un nouvel utilisateur
       user = new User({
         firstName,
         lastName,
         email,
         number,
-        password: crytPassword,
+        password: hashedPassword,
         confirmPassword,
         role
       });
   
-      await user.save(); 
+      // Enregistrer l'utilisateur dans la base de données
+      await user.save();
   
-      return res.status(201).json({ firstName: user.firstName, lastName: user.lastName ,email:user.email, _id:user._id });
-
+      // Générer un token JWT
+      const token = jwt.sign(
+        { userId: user._id, email: user.email },
+        "your_jwt_secret",
+        { expiresIn: '1h' } // Durée de validité du token (1 heure dans cet exemple)
+      );
+  
+      // Construire le lien de confirmation avec le token
+      const confirmationLink = `http://localhost:8080/api/auth?token=${token}`;
+  
+      // Envoi de l'email de confirmation
+      sendConfirmationEmail(user.email, confirmationLink);
+  
+      // Répondre avec un message de succès
+      return res.status(201).json({ msg: 'Inscription réussie. Un email de confirmation a été envoyé à votre adresse.' });
+  
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Erreur du serveur');
+      return res.status(500).send('Erreur du serveur');
     }
+};
 
-    // Crypter le mot de passe
-    const salt = await bcrypt.genSalt(10);
-    const cryptPassword = await bcrypt.hash(password, salt);
+// Fonction pour envoyer l'email de confirmation
+// function sendConfirmationEmail(userEmail, confirmationLink) {
+//   const mailOptions = {
+//     from: 'passpartoutsn@gmail.com',
+//     to: userEmail,
+//     subject: 'Confirmation d\'inscription',
+//     html: `<p>Merci de vous être inscrit ! Veuillez confirmer votre inscription en suivant ce <a href="${confirmationLink}">lien</a>.</p>`
+//   };
 
-    // Créer un nouvel utilisateur
-    user = new User({
-      firstName,
-      lastName,
-      email,
-      number,
-      password: cryptPassword,
-      role
-    });
+//   transporter.sendMail(mailOptions, function(error, info){
+//     if (error) {
+//       console.log(error);
+//     } else {
+//       console.log('Email de confirmation envoyé: ' + info.response);
+//     }
+//   });
+// }
 
-    // Enregistrer l'utilisateur dans la base de données
-    await user.save();
 
-    // Générer un token JWT
-    const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      "your_jwt_secret",
-      { expiresIn: '1h' } // Durée de validité du token (1 heure dans cet exemple)
-    );
+// // Fonction pour envoyer l'email de confirmation
+// function sendConfirmationEmail(userEmail, confirmationLink) {
+//   const mailOptions = {
+//     from: 'passpartoutsn@gmail.com',
+//     to: userEmail,
+//     subject: 'Confirmation d\'inscription',
+//     html: `<p>Merci de vous être inscrit ! Veuillez confirmer votre inscription en suivant ce <a href="${confirmationLink}">lien</a>.</p>`
+//   };
 
-    // Construire le lien de connexion avec le token
-    const loginLink = `http://yourdomain.com/login?token=${token}`;
-
-    // Envoi de l'email avec le lien de connexion
-    sendLoginEmail(user.email, loginLink);
-
-    // Répondre avec un message de succès
-    return res.status(201).json({ msg: 'Inscription réussie. Un email de confirmation a été envoyé à votre adresse.' });
-
-  // } catch (err) {
-  //   console.error(err.message);
-  //   return res.status(500).send('Erreur du serveur');
-  // }
-
-// Fonction pour envoyer l'email de connexion
-function sendLoginEmail(userEmail, loginLink) {
-  const mailOptions = {
-    from: 'passpartoutsn@gmail.com',
-    to: userEmail,
-    subject: 'Lien de connexion à votre compte',
-    html: `<p>Vous pouvez vous connecter à votre compte en suivant ce <a href="${loginLink}">lien</a>.</p>`
-  };
-
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email de connexion envoyé: ' + info.response);
-    }
-  });
-}
-
-}
+//   transporter.sendMail(mailOptions, function(error, info){
+//     if (error) {
+//       console.error('Erreur lors de l\'envoi de l\'email de confirmation:', error);
+//     } else {
+//       console.log('Email de confirmation envoyé: ' + info.response);
+//     }
+//   });
+// }
 
 
 exports.getOneUser = (req, res) => {

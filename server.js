@@ -27,6 +27,7 @@ const employeeRoutes = require('./router/listedesEmployes');
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const produitRoutes = require("./router/liste-produit");
+const listedesEmployes = require('./models/listedesEmployes');
 
 //Connexion base de donnees
 // mongoose.connect('mongodb+srv://boubacarndiaye:boubacar@route-liste-produit.9hnsns9.mongodb.net/?retryWrites=true&w=majority&appName=Route-liste-produit')
@@ -79,7 +80,6 @@ app.use('/api/admin/', RouteUsers);
 app.use('/api/email', emailRoutes);
 app.use('/subscribe', newsletterRoutes); 
 app.use('/api/employes',employeeRoutes);
-
 
 
 

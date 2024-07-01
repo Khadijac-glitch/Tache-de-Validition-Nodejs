@@ -19,7 +19,7 @@ exports.sendEmail = (req, res) => {
     })
     .catch((err) => {
       console.error(err.message);
-      res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email' });
+      res.status(403).json({ message: 'Erreur lors de l\'envoi de l\'email' });
     });
 }
 
