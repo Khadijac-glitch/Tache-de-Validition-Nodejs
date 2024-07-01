@@ -38,8 +38,8 @@ const User = require("../models/register");
  *         schema:
  *           type: string
  *           example: Connexion réussie
- *       403:
- *         description: Erreur de validation
+ *       401:
+ *         description: utilisateur non authentifié 
  *         schema:
  *           type: object
  *           properties:
@@ -51,7 +51,7 @@ const User = require("../models/register");
  *                   msg:
  *                     type: string
  *                     example: Email invalide
- *       500:
+ *       404:
  *         description: Erreur du serveur
  *         schema:
  *           type: string
@@ -68,7 +68,7 @@ router.post(
   (exports.userLogin = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(403).json({ errors: errors.array() });
+      return res.status(404).json({ errors: errors.array() });
     }
 
     const { email, password } = req.body;

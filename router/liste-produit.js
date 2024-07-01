@@ -32,6 +32,7 @@ const upload = require("../multer.js"); // Chemin vers la configuration multer
  *       500:
  *         description: Erreur du serveur
  */
+<<<<<<< HEAD
 router.post(
   "/liste-produits",
   upload.single("image"),
@@ -48,6 +49,15 @@ router.post(
     } catch (e) {
       res.status(500).send(e);
     }
+=======
+router.post("/liste-produits", async (req, res, next) => {
+  try {
+    const produit = new Produit(req.body);
+    const saveProduit = await produit.save();
+    res.status(201).send(saveProduit);
+  } catch (e) {
+    res.status(404).send(e);
+>>>>>>> a43e48a4ae66f6f31c92c07a99a1562cfde9a2ed
   }
 );
 
@@ -68,7 +78,7 @@ router.get("/liste-produits", async (req, res, next) => {
     const produits = await Produit.find({});
     res.send(produits);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 
@@ -99,7 +109,7 @@ router.get("/liste-produits/:id", async (req, res, next) => {
     if (!produits) return res.status(404).send("Produit non trouvé");
     res.send(produits);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 
@@ -138,6 +148,7 @@ router.get("/liste-produits/:id", async (req, res, next) => {
  *       500:
  *         description: Erreur du serveur
  */
+<<<<<<< HEAD
 router.patch("/liste-produits/:id",upload.single("image"),
   async (req, res, next) => {
     const produitId = req.params.id;
@@ -158,6 +169,18 @@ router.patch("/liste-produits/:id",upload.single("image"),
     } catch (e) {
       res.status(500).send(e);
     }
+=======
+router.patch("/liste-produits/:id", async (req, res, next) => {
+  const produitId = req.params.id;
+  try {
+    const produits = await Produit.findByIdAndUpdate(produitId, req.body, {
+      new: true,
+    });
+    if (!produits) return res.status(404).send("Produit non trouvé");
+    res.send(produits);
+  } catch (e) {
+    res.status(404).send(e);
+>>>>>>> a43e48a4ae66f6f31c92c07a99a1562cfde9a2ed
   }
 );
 
@@ -189,7 +212,7 @@ router.delete("/liste-produits/:id", async (req, res, next) => {
     if (!produits) return res.status(404).send("Produit non trouvé");
     res.send(produits);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(404).send(e);
   }
 });
 
