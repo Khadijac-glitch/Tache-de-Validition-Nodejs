@@ -70,4 +70,22 @@ router.post("/", employeeController.createEmployee);
  */
 router.delete("/delete/:id", employeeController.deleteEmployee);
 
+/**
+ * @swagger
+ * /api/employes/update/{id}:
+ *   delete:
+ *     summary: Modifier un employé
+ *     description: Endpoint pour modifier un employé par son ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         type: string
+ *         description: ID de l'employé
+ *     responses:
+ *       200:
+ *         description: Employé modifier avec succès
+ */
+router.delete("/update/:id", employeeController.updateEmployee);
+
 module.exports = router;
