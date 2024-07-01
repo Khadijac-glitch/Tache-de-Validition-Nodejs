@@ -12,11 +12,7 @@ module.exports = function(req, res, next) {
       req.user = decode.user;
       next();
     } catch (err) {
-<<<<<<< HEAD
       res.status(102).json({ msg: 'Token invalide' });
-=======
-      res.status(403).json({ msg: 'Token invalide' });
->>>>>>> a43e48a4ae66f6f31c92c07a99a1562cfde9a2ed
     }
   };
 

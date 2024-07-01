@@ -32,24 +32,6 @@ const upload = require("../multer.js"); // Chemin vers la configuration multer
  *       500:
  *         description: Erreur du serveur
  */
-<<<<<<< HEAD
-router.post(
-  "/liste-produits",
-  upload.single("image"),
-  async (req, res, next) => {
-    try {
-      const produit = new Produit({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        image: req.file ? req.file.path : null,
-      });
-      const saveProduit = await produit.save();
-      res.status(201).send(saveProduit);
-    } catch (e) {
-      res.status(500).send(e);
-    }
-=======
 router.post("/liste-produits", async (req, res, next) => {
   try {
     const produit = new Produit(req.body);
@@ -57,7 +39,8 @@ router.post("/liste-produits", async (req, res, next) => {
     res.status(201).send(saveProduit);
   } catch (e) {
     res.status(404).send(e);
->>>>>>> a43e48a4ae66f6f31c92c07a99a1562cfde9a2ed
+  }
+  
   }
 );
 
@@ -148,28 +131,6 @@ router.get("/liste-produits/:id", async (req, res, next) => {
  *       500:
  *         description: Erreur du serveur
  */
-<<<<<<< HEAD
-router.patch("/liste-produits/:id",upload.single("image"),
-  async (req, res, next) => {
-    const produitId = req.params.id;
-    const updates = {
-      name: req.body.name,
-      description: req.body.description,
-      price: req.body.price,
-    };
-    if (req.file) {
-      updates.image = req.file.path; // Met à jour le chemin de l'image
-    }
-    try {
-      const produits = await Produit.findByIdAndUpdate(produitId, updates, {
-        new: true,
-      });
-      if (!produits) return res.status(404).send("Produit non trouvé");
-      res.send(produits);
-    } catch (e) {
-      res.status(500).send(e);
-    }
-=======
 router.patch("/liste-produits/:id", async (req, res, next) => {
   const produitId = req.params.id;
   try {
@@ -180,8 +141,8 @@ router.patch("/liste-produits/:id", async (req, res, next) => {
     res.send(produits);
   } catch (e) {
     res.status(404).send(e);
->>>>>>> a43e48a4ae66f6f31c92c07a99a1562cfde9a2ed
   }
+}
 );
 
 
