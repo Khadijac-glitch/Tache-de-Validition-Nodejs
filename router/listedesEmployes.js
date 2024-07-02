@@ -86,6 +86,6 @@ router.delete("/delete/:id", employeeController.deleteEmployee);
  *       200:
  *         description: Employé modifier avec succès
  */
-router.delete("/update/:id", employeeController.updateEmployee);
+router.patch("/update/:id", employeeController.updateEmployee);
 
 module.exports = router;
