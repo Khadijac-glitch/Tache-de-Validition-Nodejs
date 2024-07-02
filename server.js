@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fs = require("fs");
 const cors = require('cors');
+
 const RouteUsers = require('./router/register');
 // const userRoutes = require('./router/password');
 // const RouterUser = require("./router/user")
@@ -100,6 +101,9 @@ app.use("/api", forgotPasswordRoutes);
 
 //Reservation table
 app.use("/api/reservation-table", reservationRoutes);
+
+// app.use('/api', forgotPasswordRoutes); // Assurez-vous que le préfixe '/api' correspond à votre configuration
+
 
 
 

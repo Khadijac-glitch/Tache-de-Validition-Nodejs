@@ -5,11 +5,12 @@ const router = express.Router();
 
 // /api/reservation-table
 
+
 /**
  * @swagger
- * /api/reservation-table:
+ * /api/reservation-table/tablereserved:
  *   post:
- *     summary: Créer une réservation
+ *     summary: Créer une réservation de table
  *     description: Endpoint pour créer une nouvelle réservation de table
  *     consumes:
  *       - application/json
@@ -25,15 +26,18 @@ const router = express.Router();
  *             tableId:
  *               type: string
  *               example: "table123"
+ *             customerName:
+ *               type: string
+ *               example: "John Doe"
+ *             reservationDate:
+ *               type: string
+ *               format: date-time
+ *               example: "2024-06-13T12:00:00Z"
  *     responses:
- *       201:
+ *       200:
  *         description: Réservation de table créée avec succès
- *       203:
- *         description: Cette table est déjà réservée
- *       406:
- *         description: Une erreur est survenue lors de la réservation de la table
  */
-router.post('/', reservationController.createReservation);
+router.post('/tablereserved', reservationController.createReservation);
 
 /**
  * @swagger
@@ -48,15 +52,10 @@ router.post('/', reservationController.createReservation);
  *         type: string
  *         description: ID de la table réservée
  *     responses:
- *       201:
+ *       200:
  *         description: Réservation de table supprimée avec succès
- *       404:
- *         description: Cette table n'a pas été réservée
- *       406:
- *         description: Une erreur est survenue lors de l'annulation de la réservation
  */
 router.delete('/:tableId', reservationController.deleteReservation);
-
 /**
  * @swagger
  * /api/reservation-table/reserved-tables:

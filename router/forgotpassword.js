@@ -1,41 +1,14 @@
 const express = require('express');
-const forgotPasswordController = require('../controllers/forgotpassword');
+const { forgotPassword, resetPassword } = require('../controllers/forgotpassword');
+const { check } = require('express-validator');
 
 const router = express.Router();
 
-// /**
-//  * @swagger
-//  * /api/create:
-//  *   post:
-//  *     summary: Créer un utilisateur
-//  *     description: Endpoint pour créer un nouvel utilisateur
-//  *     consumes:
-//  *       - application/json
-//  *     produces:
-//  *       - application/json
-//  *     parameters:
-//  *       - in: body
-//  *         name: user
-//  *         description: Informations de l'utilisateur à créer
-//  *         schema:
-//  *           type: object
-//  *           properties:
-//  *             email:
-//  *               type: string
-//  *               format: email
-//  *               example: user@example.com
-//  *     responses:
-//  *       201:
-//  *         description: Utilisateur créé avec succès
-//  */
-// router.post('/create', forgotPasswordController.createUser);
-
-
 /**
  * @swagger
- * /api/request-reset:
+ * /api/forgot-password:
  *   post:
- *     summary: Demander une réinitialisation de mot de passe
+ *     summary: Mot de passe oublié
  *     description: Endpoint pour demander une réinitialisation de mot de passe
  *     consumes:
  *       - application/json
@@ -43,27 +16,32 @@ const router = express.Router();
  *       - application/json
  *     parameters:
  *       - in: body
- *         name: request
- *         description: Informations pour demander une réinitialisation de mot de passe
+ *         name: email
+ *         description: Email de l'utilisateur
  *         schema:
  *           type: object
  *           properties:
  *             email:
  *               type: string
- *               format: email
- *               example: user@example.com
+ *               example: "example@example.com"
  *     responses:
  *       200:
- *         description: Demande de réinitialisation envoyée avec succès
+ *         description: Email envoyé avec succès pour réinitialisation
  */
-router.post('/request-reset', forgotPasswordController.requestReset);
+router.post('/forgot-password', [
+  check('email', 'Veuillez fournir un email valide').isEmail()
+], forgotPassword);
+
+
+
+
 
 /**
  * @swagger
  * /api/reset-password/{token}:
  *   post:
  *     summary: Réinitialiser le mot de passe
- *     description: Endpoint pour réinitialiser le mot de passe
+ *     description: Endpoint pour réinitialiser le mot de passe avec un token
  *     consumes:
  *       - application/json
  *     produces:
@@ -73,34 +51,27 @@ router.post('/request-reset', forgotPasswordController.requestReset);
  *         name: token
  *         required: true
  *         type: string
- *         description: Jeton de réinitialisation de mot de passe
+ *         description: Token de réinitialisation de mot de passe
  *       - in: body
- *         name: reset
- *         description: Informations pour réinitialiser le mot de passe
+ *         name: password
+ *         description: Nouveau mot de passe et confirmation
  *         schema:
  *           type: object
  *           properties:
  *             password:
  *               type: string
- *               example: newpassword123
+ *               example: "newpassword123"
+ *             confirmPassword:
+ *               type: string
+ *               example: "newpassword123"
  *     responses:
  *       200:
  *         description: Mot de passe réinitialisé avec succès
  */
-router.post('/reset-password/:token', forgotPasswordController.resetPassword);
+router.post('/reset-password/:token', [
+  check('password', 'Le mot de passe doit contenir au moins 6 caractères').isLength({ min: 6 }),
+  check('confirmPassword', 'Les mots de passe doivent correspondre').custom((value, { req }) => value === req.body.password)
+], resetPassword);
 
-/**
- * @swagger
- * /api/getallmail:
- *   get:
- *     summary: Obtenir tous les emails
- *     description: Endpoint pour obtenir la liste de tous les emails
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: Liste de tous les emails
- */
-router.get('/getallmail', forgotPasswordController.getAllEmails);
 
 module.exports = router;
