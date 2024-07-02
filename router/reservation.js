@@ -42,7 +42,48 @@ router.post("/", reservationController.createReservation);
  *         description: Liste de toutes les réservations
  */
 router.get("/getallreservation", reservationController.getAllReservations);
+
+
+/**
+ * @swagger
+ * /api/reservation/hours:
+ *   get:
+ *     summary: Obtenir les heures réservées
+ *     description: Endpoint pour obtenir les heures réservées
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Liste des heures réservées
+ */
 router.get('/hours', reservationController.ReservedHours);
+
+
+
+/**
+ * @swagger
+ * /api/reservation/cancelReservation:
+ *   post:
+ *     summary: Annuler une réservation
+ *     description: Endpoint pour annuler une réservation existante
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: body
+ *         name: reservation
+ *         description: Informations de la réservation à annuler
+ *         schema:
+ *           type: object
+ *           properties:
+ *             reservationId:
+ *               type: string
+ *               example: "reservation123"
+ *     responses:
+ *       200:
+ *         description: Réservation annulée avec succès
+ */
 router.post('/cancelReservation', reservationController.cancelReservation);
 
 module.exports = router;
