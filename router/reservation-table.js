@@ -55,6 +55,8 @@ router.post('/', reservationController.createReservation);
  *       406:
  *         description: Une erreur est survenue lors de l'annulation de la réservation
  */
+ 
+router.post('/tablereserved', reservationController.createReservation);
 router.delete('/:tableId', reservationController.deleteReservation);
 
 /**
