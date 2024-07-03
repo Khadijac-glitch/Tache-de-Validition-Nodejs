@@ -1,16 +1,22 @@
 const express = require("express");
 const Produit = require("../models/product");
 const router = express.Router();
-const upload = require("../multer.js"); // Chemin vers la configuration multer
+const admin = require("firebase-admin");
+const serviceAccount = require("../config/serviceAccountKey.json");
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: "gs://tache-21-a450a.appspot.com/images", // Remplacez par l'URL de votre bucket Firebase Storage
+});
 
+const storage = admin.storage();
 
 /**
  * @swagger
  * /admin/liste-produits:
  *   post:
  *     summary: Ajouter un produit
- *     description: Ajouter un nouveau produit
+ *     description: Ajouter un nouveau produit avec une image vers Firebase Storage
  *     requestBody:
  *       required: true
  *       content:
@@ -18,44 +24,46 @@ const upload = require("../multer.js"); // Chemin vers la configuration multer
  *           schema:
  *             type: object
  *             properties:
- *               image: 
- *                 type: string
  *               name:
  *                 type: string
  *               description:
  *                 type: string
  *               price:
  *                 type: number
+ *               image:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Produit créé avec succès
  *       500:
  *         description: Erreur du serveur
  */
-router.post("/liste-produits", upload.single("image"), async (req, res, next) => {
-    try {
-      const produit = new Produit({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        image: req.file ? req.file.path : null,
-      });
-      const saveProduit = await produit.save();
-      res.status(201).send(saveProduit);
-    } catch (e) {
-      res.status(500).send(e);
-    }
+router.post("/liste-produits", async (req, res, next) => {
+  try {
+    const { name, description, price, image } = req.body;
+
+    const produit = new Produit({
+      name,
+      description,
+      price,
+      image, // Assurez-vous que l'image est une URL valide de Firebase Storage
+    });
+
+    const saveProduit = await produit.save();
+    res.status(201).send(saveProduit);
+  } catch (e) {
+    res.status(500).send(e);
   }
-);
+});
 
 /**
  * @swagger
  * /admin/liste-produits:
  *   get:
- *     summary: Voir la liste de tous les produits
- *     description: Obtenir une liste de tous les produits
+ *     summary: Obtenir tous les produits
+ *     description: Récupérer tous les produits de la base de données
  *     responses:
- *       201:
+ *       200:
  *         description: Succès
  *       500:
  *         description: Erreur du serveur
@@ -72,44 +80,9 @@ router.get("/liste-produits", async (req, res, next) => {
 /**
  * @swagger
  * /admin/liste-produits/{id}:
- *   get:
- *     summary: Voir les détails d'un produit
- *     description: Obtenir les détails d'un produit par ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Succès
- *       404:
- *         description: Produit non trouvé
- *       500:
- *         description: Erreur du serveur
- */
-router.get("/liste-produits/:id", async (req, res, next) => {
-  const produitId = req.params.id;
-  try {
-    const produits = await Produit.findById(produitId);
-    if (!produits) return res.status(404).send("Produit non trouvé");
-    res.send(produits);
-  } catch (e) {
-    res.status(500).send(e);
-  }
-});
-
-
-
-// Route pour mettre à jour un produit avec une nouvelle image
-
-/**
- * @swagger
- * /admin/liste-produits/{id}:
  *   patch:
- *     summary: Modifier un produit
- *     description: Modifier les détails d'un produit par ID
+ *     summary: Mettre à jour un produit
+ *     description: Mettre à jour les détails d'un produit par ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -125,38 +98,38 @@ router.get("/liste-produits/:id", async (req, res, next) => {
  *             properties:
  *               name:
  *                 type: string
+ *               description:
+ *                 type: string
  *               price:
  *                 type: number
+ *               image:
+ *                 type: string
  *     responses:
- *       201:
+ *       200:
  *         description: Succès
  *       404:
  *         description: Produit non trouvé
  *       500:
  *         description: Erreur du serveur
  */
-router.patch(  "/liste-produits/:id", upload.single("image"), async (req, res, next) => {
-    const produitId = req.params.id;
-    const updates = {
-      name: req.body.name,
-      description: req.body.description,
-      price: req.body.price,
-    };
-    if (req.file) {
-      updates.image = req.file.path; // Met à jour le chemin de l'image
-    }
-    try {
-      const produits = await Produit.findByIdAndUpdate(produitId, updates, {
-        new: true,
-      });
-      if (!produits) return res.status(404).send("Produit non trouvé");
-      res.send(produits);
-    } catch (e) {
-      res.status(500).send(e);
-    }
-  }
-);
+router.patch("/liste-produits/:id", async (req, res, next) => {
+  const produitId = req.params.id;
+  const { name, description, price, image } = req.body;
 
+  try {
+    const updates = { name, description, price, image };
+
+    const produits = await Produit.findByIdAndUpdate(produitId, updates, {
+      new: true,
+    });
+
+    if (!produits) return res.status(404).send("Produit non trouvé");
+
+    res.send(produits);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
 
 /**
  * @swagger
@@ -171,7 +144,7 @@ router.patch(  "/liste-produits/:id", upload.single("image"), async (req, res, n
  *         schema:
  *           type: string
  *     responses:
- *       201:
+ *       200:
  *         description: Succès
  *       404:
  *         description: Produit non trouvé
@@ -180,9 +153,12 @@ router.patch(  "/liste-produits/:id", upload.single("image"), async (req, res, n
  */
 router.delete("/liste-produits/:id", async (req, res, next) => {
   const produitId = req.params.id;
+
   try {
     const produits = await Produit.findByIdAndDelete(produitId);
+
     if (!produits) return res.status(404).send("Produit non trouvé");
+
     res.send(produits);
   } catch (e) {
     res.status(500).send(e);

@@ -238,7 +238,7 @@ router.delete("/delete-admin/:id", ProdCtrl.deleteAdmin);
 
 /** 
  * @swagger
- * /api/register/email-admin:
+ * /api/register/email-admin/:
  *   post:
  *     summary: Envoyer un email administrateur
  *     description: Endpoint pour envoyer un email administrateur
