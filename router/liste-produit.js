@@ -46,7 +46,7 @@ router.post("/liste-produits", async (req, res, next) => {
       name,
       description,
       price,
-      image, // Assurez-vous que l'image est une URL valide de Firebase Storage
+      image, 
     });
 
     const saveProduit = await produit.save();
@@ -76,6 +76,58 @@ router.get("/liste-produits", async (req, res, next) => {
     res.status(500).send(e);
   }
 });
+
+
+
+
+/**
+ * @swagger
+ * /admin/liste-produits/{id}:
+ *   get:
+ *     summary: Obtenir les détails d'un produit par ID
+ *     description: Endpoint pour obtenir les détails d'un produit spécifique en utilisant son ID
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         type: string
+ *         description: ID du produit
+ *     responses:
+ *       200:
+ *         description: Détails du produit
+ *         schema:
+ *           type: object
+ *           properties:
+ *             _id:
+ *               type: string
+ *               example: "60c72b2f9b1d4e3a3c123456"
+ *             name:
+ *               type: string
+ *               example: "Produit Example"
+ *             price:
+ *               type: number
+ *               example: 19.99
+ *             description:
+ *               type: string
+ *               example: "Description du produit example"
+ *       404:
+ *         description: Produit non trouvé
+ *       500:
+ *         description: Erreur du serveur
+ */
+router.get("/liste-produits/:id", async (req, res) => {
+  const produitId = req.params.id;
+  try {
+    const produit = await Produit.findById(produitId);
+    if (!produit) return res.status(404).send("Produit non trouvé");
+    res.send(produit);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
 
 /**
  * @swagger
