@@ -23,6 +23,9 @@ const employeeRoutes = require('./router/listedesEmployes');
 
 // const reservationRoutes = require('./router/reservation');
 
+//TEST
+const path = require('path'); // Ajouté
+
 
         //Swagger
 const swaggerUi = require("swagger-ui-express");
@@ -46,8 +49,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //multer
-app.use("/uploads", express.static("uploads")); 
-
+// app.use("/uploads", express.static("uploads")); 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Ajouté
 
         //Test
 // Configuration de Swagger
