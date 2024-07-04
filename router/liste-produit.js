@@ -32,23 +32,23 @@ const storage = admin.storage();
  *                 type: number
  *               image:
  *                 type: string
+ *               category:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Produit créé avec succès
  *       500:
  *         description: Erreur du serveur
  */
-router.post("/liste-produits", async (req, res, next) => {
+router.post("/liste-produits", async (req, res) => {
   try {
-    const { name, description, price, image } = req.body;
-
     const produit = new Produit({
-      name,
-      description,
-      price,
-      image, 
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      image: req.body.image,
+      category: req.body.category, // Ajoutez cette ligne
     });
-
     const saveProduit = await produit.save();
     res.status(201).send(saveProduit);
   } catch (e) {
@@ -164,20 +164,21 @@ router.get("/liste-produits/:id", async (req, res) => {
  *       500:
  *         description: Erreur du serveur
  */
-router.patch("/liste-produits/:id", async (req, res, next) => {
+router.patch("/liste-produits/:id", async (req, res) => {
   const produitId = req.params.id;
-  const { name, description, price, image } = req.body;
-
+  const updates = {
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    image: req.body.image,
+    category: req.body.category, // Ajoutez cette ligne
+  };
   try {
-    const updates = { name, description, price, image };
-
-    const produits = await Produit.findByIdAndUpdate(produitId, updates, {
+    const produit = await Produit.findByIdAndUpdate(produitId, updates, {
       new: true,
     });
-
-    if (!produits) return res.status(404).send("Produit non trouvé");
-
-    res.send(produits);
+    if (!produit) return res.status(404).send("Produit non trouvé");
+    res.send(produit);
   } catch (e) {
     res.status(500).send(e);
   }

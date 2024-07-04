@@ -5,6 +5,7 @@ const Produit = mongoose.model("Produit", {
     name: String,
     description: String,
     price: Number,
+    category: String
 });
 
 module.exports = Produit;
