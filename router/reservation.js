@@ -56,7 +56,7 @@ router.get("/getallreservation", reservationController.getAllReservations);
  *       200:
  *         description: Liste des heures réservées
  */
-router.get('/hours', reservationController.ReservedHours);
+router.get('/hours/:date', reservationController.ReservedHours);
 
 
 

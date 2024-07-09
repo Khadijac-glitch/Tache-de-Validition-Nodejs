@@ -4,7 +4,7 @@ const ReservationTable = require('../models/reservation-table');
 exports.createReservation = async (req, res) => {
     try {
         const { tableId } = req.body;
-        
+
         const existingReservation = await ReservationTable.findOne({ tableId });
         if (existingReservation) {
             return res.status(301).json({ message: 'Cette table est déjà réservée.' });
@@ -13,7 +13,7 @@ exports.createReservation = async (req, res) => {
         const newReservation = new ReservationTable({ tableId });
         const savedReservation = await newReservation.save();
 
-        res.status(201).json(savedReservation);
+        res.status(201).json({ reservation: savedReservation, reservedTableId: tableId });
     } catch (error) {
         console.error(error);
         res.status(403).json({ message: 'Une erreur est survenue lors de la réservation de la table.' });
