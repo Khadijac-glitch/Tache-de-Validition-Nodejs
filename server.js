@@ -121,11 +121,16 @@ app.get('/', (req, res) => {
 // Routes de l'application
 
 const PORT = process.env.PORT || 8080;
-mongoose.connect("mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-  .then(() => app.listen(PORT, () => console.log(`Server is running on port ${PORT}`)))
-  .catch(err => console.log(err));
+mongoose
+  .connect(
+    "mongodb+srv://boubacarndiayeme:boubacar@cluster0.qcrdmis.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() =>
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+  )
+  .catch((err) => console.log(err));
 
 
-
+// mongodb+srv://boubacarndiayeme:boubacar@cluster0.qcrdmis.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 module.exports = app;
