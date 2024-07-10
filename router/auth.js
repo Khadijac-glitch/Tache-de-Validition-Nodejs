@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/register");
+const jwt = require("jsonwebtoken");
 
 
 /**
@@ -58,17 +59,18 @@ const User = require("../models/register");
  *           example: Erreur du serveur
  */
 
+
+
 router.post(
   "/",
   [
     check("email", "Veuillez entrer un email valide").isEmail(),
     check("password", "Veuillez entrer un mot de passe valide").exists(),
   ],
-
-  (exports.userLogin = async (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(404).json({ errors: errors.array() });
+      return res.status(401).json({ errors: errors.array() });
     }
 
     const { email, password } = req.body;
@@ -77,27 +79,30 @@ router.post(
       let user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(403).json({ errors: [{ msg: "Email invalide" }] });
+        return res.status(401).json({ errors: [{ msg: "Email invalide" }] });
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
-      console.log(user.password);
       if (!isPasswordValid) {
         return res
-          .status(403)
+          .status(401)
           .json({ errors: [{ msg: "Mot de passe invalide" }] });
-
       }
 
-      // console.log("Connexion réussie");
-      // res.send("Connexion réussie");
-      return res.status(201).json({ firstName: user.firstName, lastName: user.lastName ,email:user.email, _id:user._id });
-
+      // Si tout est OK, retournez les données de l'utilisateur
+      return res.status(201).json({
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Erreur du serveur");
     }
-  })
+  }
 );
+
+module.exports = router;
+
+
 module.exports = router;
