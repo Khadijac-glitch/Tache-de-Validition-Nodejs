@@ -2,7 +2,6 @@ const express = require('express');
 const reservationController = require('../controllers/reservation-table');
 
 const router = express.Router();
-
 // /api/reservation-table
 
 

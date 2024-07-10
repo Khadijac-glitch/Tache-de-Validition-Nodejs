@@ -18,6 +18,7 @@ const forgotPasswordRoutes = require("./router/forgotpassword");
 
 
 
+
 //Reservation table
 const reservationRoutes = require("./router/reservation-table");
 const employeeRoutes = require('./router/listedesEmployes');
@@ -102,6 +103,8 @@ app.use('/api/reservation', reservation);
 app.use("/api", forgotPasswordRoutes);
 
 
+
+
 //Reservation table
 app.use("/api/reservation-table", reservationRoutes);
 
@@ -119,6 +122,8 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 mongoose.connect("mongodb+srv://dija5631:dbrestau@cluster0.a5lixnb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+// mongoose.connect("mongodb+srv://madjiguened835:<password>@get-password.sot5wfh.mongodb.net/?retryWrites=true&w=majority&appName=get-password")
+
   .then(() => app.listen(PORT, () => console.log(`Server is running on port ${PORT}`)))
   .catch(err => console.log(err));
 
